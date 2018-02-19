@@ -11,6 +11,7 @@
 
 package org.usfirst.frc157.FRC2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc157.FRC2018.OI;
 import org.usfirst.frc157.FRC2018.Robot;
@@ -51,13 +52,15 @@ public class DriveLiftWithSticks extends Command {
     protected void execute() {
         
         direction = Robot.oi.getopBox().getRawAxis(OI.JoyY);
-        if (direction > 0)
+        SmartDashboard.putNumber("joystick", direction);
+        if (direction > 0.2)
         {
-            Robot.lift.move(Lift.direction.UP, 1);
+            Robot.lift.move(Lift.direction.UP, 0.35);
         }
-        else if (direction < 0)
+        else if (direction < -0.2)
         {
-            Robot.lift.move(Lift.direction.DOWN, -1);
+            System.out.println("down");
+            Robot.lift.move(Lift.direction.DOWN, -0.1);
         }
         else
         {
