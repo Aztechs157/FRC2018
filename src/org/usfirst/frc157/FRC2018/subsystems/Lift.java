@@ -83,11 +83,53 @@ public class Lift extends Subsystem {
     }
     public void movePlat(double speed)
     {
-        platformMotor.set(speed);
+        if (speed > 0)
+        {
+            if (!platformTopLimit.get())
+            {
+                platformMotor.set(speed);
+            }
+            else
+            {
+                stopPlat();
+            }
+        }
+        else
+        {
+            if (!platformBottomLimit.get())
+            {
+                platformMotor.set(speed);
+            }
+            else
+            {
+                stopPlat();
+            }
+        }
     }
     public void moveStage(double speed)
     {
-        extensionMotor.set(speed);
+        if (speed > 0)
+        {
+            if (!extensionTopLimit.get())
+            {
+                extensionMotor.set(speed);
+            }
+            else
+            {
+                stopPlat();
+            }
+        }
+        else
+        {
+            if (!extensionBottomLimit.get())
+            {
+                extensionMotor.set(speed);
+            }
+            else
+            {
+                stopPlat();
+            }
+        }
     }
     public void stopPlat()
     {

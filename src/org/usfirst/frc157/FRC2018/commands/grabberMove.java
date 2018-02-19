@@ -71,5 +71,6 @@ public class grabberMove extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        Robot.grabber.move(0);
     }
 }
