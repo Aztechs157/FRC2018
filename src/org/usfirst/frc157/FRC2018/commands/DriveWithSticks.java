@@ -45,6 +45,7 @@ public class DriveWithSticks extends Command {
     protected void execute()
     {
         Robot.drive.DriveRobot();
+        //System.out.println("driving");
     }
 
     // Make this return true when this Command no longer needs to run execute()
