@@ -43,8 +43,8 @@ public class MoveLiftToPos extends Command {
     private double stageTime;
     private double posPlatInterm;
     private boolean platFirst;
-    private double platSpeed = 4.5;// 20.64;
-    private double stageSpeed = 5;//28.2;
+    private double platSpeed = 20.64;
+    private double stageSpeed = 28.2;
   //private Lift.quad encoder = Lift.quad.PLATFORM;
   //private Lift.direction direction = Lift.direction.UP;
     private PID platPID = new PID(0.05, 0, 0, 999999, 99999, 999999, 9999999);
@@ -143,7 +143,7 @@ public class MoveLiftToPos extends Command {
             SmartDashboard.putBoolean("test", true);
             if (Robot.lift.getPlatEncoder() < posPlatInterm-0.5)
             {
-                Robot.lift.movePlat(platPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
+                Robot.lift.movePlat(1*.35);
             }
             else
             {
@@ -159,11 +159,11 @@ public class MoveLiftToPos extends Command {
             SmartDashboard.putBoolean("test2", Robot.lift.getPlatEncoder() > posPlatFinal-.5);
             if (Robot.lift.getPlatEncoder() < posPlatFinal-.5)
             {
-                Robot.lift.movePlat(platPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
+                Robot.lift.movePlat(1*.35);
             }
             else if (Robot.lift.getPlatEncoder() > posPlatFinal+.5)
             {
-                Robot.lift.movePlat(platPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
+                Robot.lift.movePlat(1*.1);
             }
             else
             {
@@ -173,11 +173,11 @@ public class MoveLiftToPos extends Command {
             SmartDashboard.putBoolean("test4", Robot.lift.getStageEncoder() > posStageFinal - .5);
             if (Robot.lift.getStageEncoder() < posStageFinal - .5)
             {
-                Robot.lift.moveStage(stagePID.pidCalculate(posStageFinal, Robot.lift.getStageEncoder()));
+                Robot.lift.moveStage(1*.5);
             }
             else if (Robot.lift.getStageEncoder() > posPlatFinal + .5)
             {
-                Robot.lift.moveStage(stagePID.pidCalculate(posStageFinal, Robot.lift.getStageEncoder()));
+                Robot.lift.moveStage(1*.1);
             }
             else
             {

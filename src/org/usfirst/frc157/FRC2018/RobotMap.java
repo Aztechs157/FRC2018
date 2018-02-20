@@ -59,7 +59,9 @@ public class RobotMap {
         
         platformQuad = new Encoder(4, 5, false, EncodingType.k4X);
         LiveWindow.addSensor("Platform", "platformQuad", platformQuad);
-        platformQuad.setDistancePerPulse(0.005);//0.02
+        platformQuad.setDistancePerPulse(0.005);
+        platformQuad.setDistancePerPulse(0.005);
+
         platformQuad.setPIDSourceType(PIDSourceType.kRate);
         platformTopLimit = new DigitalInput(6);
         LiveWindow.addSensor("Platform", "platformTopLimit", platformTopLimit);
@@ -69,7 +71,11 @@ public class RobotMap {
         
         stageQuad = new Encoder(21, 22, false, EncodingType.k4X);
         LiveWindow.addSensor("Extension", "carriageQuad", stageQuad);
-        stageQuad.setDistancePerPulse(0.009);//0.01
+
+        stageQuad.setDistancePerPulse(0.009); 
+
+        stageQuad.setDistancePerPulse(0.009);
+
         stageQuad.setPIDSourceType(PIDSourceType.kRate);
         stageTalon = new WPI_TalonSRX(7);
         
