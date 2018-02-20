@@ -59,7 +59,7 @@ public class RobotMap {
         
         platformQuad = new Encoder(4, 5, false, EncodingType.k4X);
         LiveWindow.addSensor("Platform", "platformQuad", platformQuad);
-        platformQuad.setDistancePerPulse(0.0625);//0.02
+        platformQuad.setDistancePerPulse(0.005);//0.02
         platformQuad.setPIDSourceType(PIDSourceType.kRate);
         platformTopLimit = new DigitalInput(6);
         LiveWindow.addSensor("Platform", "platformTopLimit", platformTopLimit);
@@ -69,7 +69,7 @@ public class RobotMap {
         
         stageQuad = new Encoder(21, 22, false, EncodingType.k4X);
         LiveWindow.addSensor("Extension", "carriageQuad", stageQuad);
-        stageQuad.setDistancePerPulse(0.025);//0.01
+        stageQuad.setDistancePerPulse(0.009);//0.01
         stageQuad.setPIDSourceType(PIDSourceType.kRate);
         stageTalon = new WPI_TalonSRX(7);
         
@@ -96,7 +96,7 @@ public class RobotMap {
         LiveWindow.addSensor("Drive", "driveRightQuad", driveRightQuad);
         driveRightQuad.setDistancePerPulse(0.052333);
         driveRightQuad.setPIDSourceType(PIDSourceType.kRate);
-        drivedriveLeftQuad = new Encoder(0, 1, false, EncodingType.k4X);
+        drivedriveLeftQuad = new Encoder(0, 1, true, EncodingType.k4X);
         LiveWindow.addSensor("Drive", "driveLeftQuad", drivedriveLeftQuad);
         drivedriveLeftQuad.setDistancePerPulse(0.052333);
         drivedriveLeftQuad.setPIDSourceType(PIDSourceType.kRate);

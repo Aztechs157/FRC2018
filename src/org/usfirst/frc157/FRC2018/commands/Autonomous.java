@@ -1,8 +1,12 @@
 package org.usfirst.frc157.FRC2018.commands;
 
-import org.usfirst.frc157.Tekeva2018.PID;
-import org.usfirst.frc157.Tekeva2018.Robot;
-import org.usfirst.frc157.Tekeva2018.subsystems.PathManager;
+import org.usfirst.frc157.FRC2018.PID;
+import org.usfirst.frc157.FRC2018.Robot;
+import org.usfirst.frc157.FRC2018.RobotMap;
+import org.usfirst.frc157.FRC2018.SlewRate;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,6 +24,7 @@ public class Autonomous extends Command
     private PID drivePID;
     private PID gyroDrivePID;
     private PID gyroPID;
+    private SlewRate slewRate;
     private double drivePower = 0;
     private double leftPower = 0;
     private double rightPower = 0;
@@ -34,19 +39,24 @@ public class Autonomous extends Command
     private double angle = 0;
     private double encoder;
     private int target;
-    private  PathManager pathManager;
     private boolean pathOpen = false;
     private boolean autonFinished = false;
+    private boolean slewCut = false;
     
+    private final WPI_TalonSRX driveLeft1 = RobotMap.driveLeft1;
+    private final WPI_TalonSRX driveLeft2 = RobotMap.driveLeft2;
+    private final WPI_TalonSRX driveRight1 = RobotMap.driveRight1;
+    private final WPI_TalonSRX driveRight2 = RobotMap.driveRight2;
     public Autonomous()
     {
         requires(Robot.drive);
         startTime = Timer.getFPGATimestamp();
-        state = autonState.driveForward10;
-        drivePID = new PID(0.16, 0, 0.000005, 999999, 99999, 999999, 9999999);
+        state = autonState.driveArc;
+        drivePID = new PID(0.04, 0, 0.000005, 999999, 99999, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
         gyroPID = new PID(0.03, 0, 0.000003, 9999999, 9999999, 9999999, 999999);
         System.out.println("I got called"); 
+        slewRate = new SlewRate(0.0026);
        /* try {
         	pathManager = new PathManager();
         	pathOpen = true;
@@ -66,32 +76,41 @@ public class Autonomous extends Command
         {
 
             case driveArc:
-                double encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
-                target = 565;
+            	System.out.println("Left Encoder: "+Robot.drive.getLeftEncoder());
+            	System.out.println("Right Encoder: "+Robot.drive.getRightEncoder());
+                double encoder = (Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
+                System.out.println("Encoder: "+encoder);
+               
+                target = 120;
                 drivePower = drivePID.pidCalculate(target, encoder);
-
+                if(!slewCut) {
+                	drivePower = slewRate.rateCalculate(drivePower);
+                }
+                if(Math.abs(drivePower)>=0.95) {
+                	slewCut = true;
+                }
                 x = xEllipseCalculate(180,180, encoder);
                 y = yEllipseCalculate(180,180, x);
                 angle = angleEllipseCalculate(180,180, x);
                 /*x = xSinCalculate(48,1/48.0, encoder);
                 y = ySinCalculate(48,1/48.0, x);
                 angle = angleSinCalculate(48,1/48.0, x);*/
-                System.out.println("Right Encoder: "+Robot.drive.getRightEncoder()+"\nLeft Encoder: "+Robot.drive.getLeftEncoder());
-                System.out.println("\nEncoder: " + encoder + "\nGyro: " + Robot.drive.getAngle() + "\nAngle: " + angle);
+                
 
-                leftPower = drivePower - gyroDrivePID.pidCalculate(angle + initAngle, Robot.drive.getAngle());
+                leftPower = drivePower - gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
                 leftPower = ((leftPower > 0) ? 1 : -1) * Math.min(1, Math.abs(leftPower));
 
-                rightPower = drivePower + gyroDrivePID.pidCalculate(angle + initAngle, Robot.drive.getAngle());
+                rightPower = drivePower + gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
                 rightPower = ((rightPower > 0) ? 1 : -1) * Math.min(1, Math.abs(rightPower));
 
                 Robot.drive.AutoDrive(leftPower, rightPower);
                 if (Math.abs(encoder - target) < 3.0)
                 {
                     repsAtTarget++;
-                    if (repsAtTarget >= 5)
+                    if (repsAtTarget >= 15)
                     {
-                        state = autonState.turnRight;
+                    	reset();
+                    	autonFinished = true;
                         repsAtTarget = 0;
                     }
                 }
@@ -143,7 +162,12 @@ public class Autonomous extends Command
             	encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
                 target = 120;
                 drivePower = drivePID.pidCalculate(target, encoder);
-                
+                if(!slewCut) {
+                	drivePower = slewRate.rateCalculate(drivePower);
+                }
+                if(Math.abs(drivePower)>=0.95) {
+                	slewCut = true;
+                }
                 System.out.println("Right Encoder: "+Robot.drive.getRightEncoder()+"\nLeft Encoder: "+Robot.drive.getLeftEncoder());
                 System.out.println("\nEncoder: " + encoder + "\nGyro: " + Robot.drive.getAngle() + "\nAngle: " + angle);
 
@@ -277,5 +301,12 @@ public class Autonomous extends Command
         // TODO Auto-generated method stub
         return autonFinished;
     }
-
+    public void reset() {
+		Robot.drive.AutoDrive(0, 0);
+		Robot.drive.resetLeftEncoder();
+		Robot.drive.resetRightEncoder();
+		repsAtTarget = 0;
+		initAngle = Robot.drive.getAngle();
+		slewCut = false;
+	}
 }

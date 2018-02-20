@@ -89,7 +89,7 @@ public class Drive extends Subsystem {
     }
     public double getAngle()
     {
-        return gyro.getAngle();
+        return -gyro.getAngle();
     }
     public void DriveRobot()
     {
