@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 //import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc157.FRC2018.OI;
 import org.usfirst.frc157.FRC2018.PID;
 import org.usfirst.frc157.FRC2018.Robot;
 //import org.usfirst.frc157.FRC2018.subsystems.Lift;
@@ -199,6 +200,7 @@ public class MoveLiftToPos extends Command {
                 finished = true;
             }
         }
+        finished = (Robot.oi.getopBox().getRawAxis(OI.JoyY) > 0.5 || Robot.oi.getopBox().getRawAxis(OI.JoyY) < -0.5)?true:finished;
         //System.out.println(finished);
         return finished;
     }
