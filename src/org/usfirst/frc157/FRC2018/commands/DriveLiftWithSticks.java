@@ -55,11 +55,11 @@ public class DriveLiftWithSticks extends Command {
         SmartDashboard.putNumber("joystick", direction);
         if (direction > 0.2)
         {
-            Robot.lift.move(Lift.direction.UP, 0.40);
+            Robot.lift.move(Lift.direction.UP, 1);
         }
         else if (direction < -0.2)
         {
-            System.out.println("down");
+            //System.out.println("down");
             Robot.lift.move(Lift.direction.DOWN, -0.1);
         }
         else

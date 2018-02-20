@@ -108,7 +108,7 @@ public class Lift extends Subsystem {
     }
     public void moveStage(double speed)
     {
-        if (speed > 0)
+        if (speed < 0)
         {
             if (!extensionTopLimit.get())
             {
