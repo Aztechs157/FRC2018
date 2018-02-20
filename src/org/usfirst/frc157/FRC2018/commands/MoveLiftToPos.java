@@ -28,7 +28,7 @@ public class MoveLiftToPos extends Command {
     private static final double startPos = 3;
     private static final double carriage1 = 44;
     private static final double top = 80;
-    private static final double switchHeight = 18.75-startPos;
+    private static final double switchHeight = 28.75-startPos;
     private static final double scaleLow = (4*12)-startPos;
     private static final double scaleMed = (5*12)-startPos;
     private static final double scaleHigh = (60*12)-startPos;
@@ -163,7 +163,7 @@ public class MoveLiftToPos extends Command {
             }
             else if (Robot.lift.getPlatEncoder() > posPlatFinal+.5)
             {
-                Robot.lift.movePlat(1*.1);
+                Robot.lift.movePlat(-1*.5);
             }
             else
             {
@@ -173,11 +173,11 @@ public class MoveLiftToPos extends Command {
             SmartDashboard.putBoolean("test4", Robot.lift.getStageEncoder() > posStageFinal - .5);
             if (Robot.lift.getStageEncoder() < posStageFinal - .5)
             {
-                Robot.lift.moveStage(1*.5);
+                Robot.lift.moveStage(-1*.5);
             }
             else if (Robot.lift.getStageEncoder() > posPlatFinal + .5)
             {
-                Robot.lift.moveStage(1*.1);
+                Robot.lift.moveStage(1*.5);
             }
             else
             {
@@ -199,6 +199,7 @@ public class MoveLiftToPos extends Command {
                 finished = true;
             }
         }
+        
         return finished;
     }
 
