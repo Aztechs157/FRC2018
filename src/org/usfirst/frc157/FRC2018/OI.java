@@ -98,9 +98,9 @@ public class OI {
         k12 = new JoystickButton(opBox, 12);
         k12.whileHeld(new empty());
         k11 = new JoystickButton(opBox, 11);
-        k11.whileHeld(new empty());
+        k11.whileHeld(new Debug());
         sT = new JoystickButton(opBox, 10);
-        sT.whenPressed(new Debug());
+        sT.whenPressed(new CalibrateLift());
         sE = new JoystickButton(opBox, 9);
         sE.whileHeld(new grabberMove(true));
         r1 = new JoystickButton(opBox, 8);
