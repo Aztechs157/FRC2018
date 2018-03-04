@@ -59,14 +59,7 @@ public class Drive extends Subsystem {
     private final AnalogGyro gyro = RobotMap.driveGyro;
     //private final AnalogPotentiometer analogPotentiometer = RobotMap.motorControllerTeAnalogPotentiometer;
     
-    public enum driverSetup
-    {
-        ARCADE,
-        TANK,
-        MECHDRIVE
-    }
-    public boolean controller = false;
-    public driverSetup currentSetup = driverSetup.TANK;
+
     @Override
     public void initDefaultCommand()
     {
@@ -93,58 +86,7 @@ public class Drive extends Subsystem {
     }
     public void DriveRobot()
     {
-        double left = Robot.oi.getgamePad().getRawAxis(OI.RYStick);
-        double right = Robot.oi.getgamePad().getRawAxis(OI.LYStick );
-        double Latk = Robot.oi.getattackL().getRawAxis(OI.Latk);
-        double Ratk = Robot.oi.getattackR().getRawAxis(OI.Ratk);
-        switch (currentSetup)
-        {
-            case TANK:
-                if (controller)
-                {
-                    /*driveLeft1.set(left);
-                    driveRight1.set(right);*/
-                }
-                else
-                {
-                    driveLeft1.set(Latk);
-                    driveRight1.set(Ratk);
-                }
-                break;
-            case ARCADE:
-                if (controller)
-                {
-                    double RxDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick);
-                    driveRight1.set((right + RxDrive));
-                    driveLeft1.set((-right + RxDrive));
-                }
-                else
-                {
-                    double RxDrive = Robot.oi.getattackR().getRawAxis(OI.RXAttackStick);
-                    driveRight1.set((Ratk + RxDrive));
-                    driveLeft1.set((-Ratk + RxDrive));
-
-                    SmartDashboard.putNumber("X", Ratk);
-                    SmartDashboard.putNumber("Y", RxDrive);
-                }
-            case MECHDRIVE:
-                if (controller)
-                {
-                    double RxDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick);;
-                    driveRight1.set((left + RxDrive));
-                    driveLeft1.set((-left + RxDrive));
-                }
-                else
-                {
-                    double RxDrive = Robot.oi.getattackR().getRawAxis(OI.RXAttackStick);
-                    driveRight1.set((Latk + RxDrive));
-                    driveLeft1.set((-Latk + RxDrive));
-                }
-                break;
-            default:
-                break;
-        }
-        /*//DecimalFormat numberFormat = new DecimalFormat("0.00");
+        //DecimalFormat numberFormat = new DecimalFormat("0.00");
         double potentiometer = 1;//analogPotentiometer.get();
         count++;
         if (count==100)
@@ -174,7 +116,7 @@ public class Drive extends Subsystem {
             double RxDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick) * potentiometer;
             driveRight1.set((left + RxDrive));
             driveLeft1.set((-left + RxDrive));
-        }*/
+        }
 
     }
     public double getLeftEncoder()

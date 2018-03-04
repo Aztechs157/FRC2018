@@ -64,10 +64,8 @@ public class OI {
     public JoystickButton sT;
     public JoystickButton k11;
     public JoystickButton k12;
-    public JoystickButton mech;
-    public JoystickButton tank;
-    public JoystickButton arcade;
-    public JoystickButton controllerToggle;
+    public JoystickButton ControllerSwap;
+    public JoystickButton AttackSwap;
     public Joystick opBox;
     public Joystick attackL;
     public Joystick attackR;
@@ -120,16 +118,10 @@ public class OI {
         k1 = new JoystickButton(opBox, 1);
         k1.whenPressed(new MoveLiftToPos(0));
         
-        mech = new JoystickButton(attackR, 6);
-        mech.whenPressed(new SelectMech());
-        tank = new JoystickButton(attackR, 7);
-        tank.whenPressed(new SelectTank());
-        arcade = new JoystickButton(attackR, 8);
-        arcade.whenPressed(new SelectArcade());
-        controllerToggle = new JoystickButton(attackR, 6);
-        controllerToggle.whenPressed(new ControllerToggle());
-
-
+        ControllerSwap = new JoystickButton(gamePad, 7);
+        ControllerSwap.whenPressed(new DriveSwap());
+        AttackSwap = new JoystickButton(attackL, 6);
+        AttackSwap.whenPressed(new AtkSwap());
         // SmartDashboard Buttons
         SmartDashboard.putData("AuotoGroup", new AuotoGroup());
         SmartDashboard.putData("DriveWithSticks", new DriveWithSticks());
