@@ -48,6 +48,8 @@ public class AtkSwap extends Command {
     {
         Robot.drive.AttackDrive = true;
         Robot.drive.onestick = false;
+        Robot.drive.mechDrive = false;
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
