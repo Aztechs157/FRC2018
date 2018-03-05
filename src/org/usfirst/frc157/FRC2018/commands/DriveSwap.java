@@ -43,7 +43,7 @@ public class DriveSwap extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     @Override
-    protected void execute() 
+    protected void execute()
     {
             Robot.oi.mechDrive.whenPressed(new mechSwap());
             Robot.oi.tankDrive.whenPressed(new tankSwap());
