@@ -111,7 +111,6 @@ public class Drive extends Subsystem {
         {
             if (mechDrive)
             {
-                System.out.println("MECHDRIVE ENABLED");
                 double RxDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick);
                 double lxDrive = Robot.oi.getgamePad().getRawAxis(OI.LXStick);
                 driveRight1.set((-right + RxDrive));

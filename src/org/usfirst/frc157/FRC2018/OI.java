@@ -64,9 +64,11 @@ public class OI {
     public JoystickButton sT;
     public JoystickButton k11;
     public JoystickButton k12;
+    public static JoystickButton tankDrive;
+    public static JoystickButton arcadeDrive;
     public JoystickButton ControllerSwap;
     public JoystickButton AttackSwap;
-    public JoystickButton mechDrive;
+    public static JoystickButton mechDrive;
     public Joystick opBox;
     public Joystick attackL;
     public Joystick attackR;
@@ -96,10 +98,11 @@ public class OI {
         opBox = new Joystick(1);
         gamePad = new Joystick(3);
 
-        ControllerSwap = new JoystickButton(gamePad, 7);
-        ControllerSwap.whenPressed(new DriveSwap());
-        mechDrive = new JoystickButton(gamePad, 4);
-        mechDrive.whenPressed(new mechSwap());
+        ControllerSwap = new JoystickButton(gamePad, 8);
+        ControllerSwap.whileHeld(new DriveSwap());
+        mechDrive = new JoystickButton(gamePad, 3);
+        tankDrive = new JoystickButton(gamePad, 4);
+        arcadeDrive = new JoystickButton(gamePad, 1);
         k12 = new JoystickButton(opBox, 12);
         k12.whileHeld(new empty());
         k11 = new JoystickButton(opBox, 11);
@@ -125,8 +128,9 @@ public class OI {
         k1 = new JoystickButton(opBox, 1);
         k1.whenPressed(new MoveLiftToPos(0));
 
-        AttackSwap = new JoystickButton(attackL, 6);
-        AttackSwap.whenPressed(new AtkSwap());
+        //used for dual joystick
+        //AttackSwap = new JoystickButton(attackL, 6);
+        //AttackSwap.whenPressed(new AtkSwap());
         // SmartDashboard Buttons
         SmartDashboard.putData("AuotoGroup", new AuotoGroup());
         SmartDashboard.putData("DriveWithSticks", new DriveWithSticks());
