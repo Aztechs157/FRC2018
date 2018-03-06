@@ -17,6 +17,7 @@ import org.usfirst.frc157.FRC2018.OI;
 
 import org.usfirst.frc157.FRC2018.Robot;
 import org.usfirst.frc157.FRC2018.RobotMap;
+import org.usfirst.frc157.FRC2018.commands.AuotoGroup;
 import org.usfirst.frc157.FRC2018.commands.DriveWithSticks;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -94,19 +95,8 @@ public class Drive extends Subsystem {
         double right = -Robot.oi.getgamePad().getRawAxis(OI.LYStick ) * potentiometer;
         if (!onestick)
         {
-            if (AttackDrive)
-            {
-                double RatkPot = Robot.oi.getattackR().getRawAxis(OI.RatkPot);
-                double Latk = -Robot.oi.getattackL().getRawAxis(OI.Latk) * (RatkPot * potentiometer);
-                double Ratk = Robot.oi.getattackR().getRawAxis(OI.Ratk) * (RatkPot * potentiometer);
-                driveLeft1.set(Latk);
-                driveRight1.set(Ratk);
-            }
-            else
-            {
             driveRight1.set(left); // Change to RDrive * potentiometer
             driveLeft1.set(right); // Change to LDrive * potentiometer
-            }
         }
         else
         {
