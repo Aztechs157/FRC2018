@@ -12,6 +12,7 @@
 package org.usfirst.frc157.FRC2018.commands;
 import edu.wpi.first.wpilibj.command.Command;
 //import org.usfirst.frc157.FRC2018.Robot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -42,12 +43,14 @@ public class empty extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        SmartDashboard.putNumber("potVal", AuotoGroup.getPotVal());
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
