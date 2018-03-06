@@ -115,7 +115,7 @@ public class RobotMap {
         
         
         intakeLeftTalon = new WPI_TalonSRX(4);
-        autoSelect = new AnalogPotentiometer(2, -1.0, 0.0);
+        autoSelect = new AnalogPotentiometer(2, 11.75, 0.0);
 
         
 

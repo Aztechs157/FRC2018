@@ -26,6 +26,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 //import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 //import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Encoder;
 //import edu.wpi.first.wpilibj.PIDSourceType;
@@ -145,6 +146,7 @@ public class Drive extends Subsystem {
         driveRight1.set(-Rdrive);
         driveLeft1.set(Ldrive);
     }
+
     /*public double[] getAccelerometer()
     {
         return new double[]{accel.getX(), accel.getY(), accel.getZ()};
@@ -168,4 +170,3 @@ public class Drive extends Subsystem {
     // here. Call these from Commands.
 
 }
-
