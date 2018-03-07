@@ -41,7 +41,7 @@ public class AutonMode1 extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        endTime = Timer.getFPGATimestamp()+3;
+        endTime = Timer.getFPGATimestamp()+1.5;
     }
 
     // Called repeatedly when this Command is scheduled to run

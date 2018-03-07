@@ -58,8 +58,9 @@ public class AutonMode5 extends Command
         drivePID = new PID(0.025, 0.1, 0.000005, 10, 10, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
         gyroPID = new PID(0.03, 0, 0.000003, 9999999, 9999999, 9999999, 999999);
+        platPID = new PID(2, 0, 0, 999999, 999999, 9999999, 99999);
         System.out.println("I got called"); 
-        slewRate = new SlewRate(0.001);
+        slewRate = new SlewRate(0.1);
         this.left = (left)? 1: -1;
         platTarget = 39;
     }
