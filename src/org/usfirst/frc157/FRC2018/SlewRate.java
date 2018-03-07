@@ -4,18 +4,19 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class SlewRate {
 	
-	private double initTime;
 	private double lastRate;
+	private double lastTime;
 	private double maxAccel;
 	
 	public SlewRate(double maxAccel) {
-		initTime = Timer.getFPGATimestamp();
+		lastTime = Timer.getFPGATimestamp();
 		this.maxAccel = maxAccel;
 		lastRate = 0;
 	}
 	public double rateCalculate(double desired) {
 		double absDesired = Math.abs(desired);
-		double deltaTime = Timer.getFPGATimestamp();
+		double deltaTime = Timer.getFPGATimestamp()-lastTime;
+		System.out.println("Delta Time: "+ deltaTime);
 		double desiredAccel = (absDesired - lastRate)/deltaTime;
 		double addedRate;
 		double newRate;
@@ -24,13 +25,16 @@ public class SlewRate {
 			newRate = addedRate+lastRate;
 		}
 		else {
-			newRate = desired;
+			newRate = absDesired;
 		}
+		lastTime = lastTime+deltaTime;
 		lastRate = newRate;
-		return ((desired>=0)? 1: -1)*newRate;
+		double returnVal = ((desired>=0)? 1: -1)*newRate;
+		System.out.println("Return: "+returnVal);
+		return returnVal;
 	}
 	public void reinit() {
-		initTime = Timer.getFPGATimestamp();
+		lastTime = Timer.getFPGATimestamp();
 		lastRate = 0;
 	}
 }
