@@ -72,13 +72,13 @@ public class AuotoGroup extends CommandGroup {
                 addSequential(new AutonMode2());
                 break;
             case mode3:
-
+                addSequential(new AutonMode3());
                 break;
             case mode4:
-
+                addSequential(new AutonMode4(false));
                 break;
             case mode5:
-
+                addSequential(new AutonMode5(false));
                 break;
             case mode6:
 

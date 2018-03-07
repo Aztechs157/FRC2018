@@ -78,7 +78,7 @@ public class AutonMode7 extends Command
         	System.out.println("Plat Target: "+platTarget);
         	System.out.println("Plat Encoder: "+ Robot.lift.getPlatEncoder());
         	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
-        	Robot.lift.setPlatMotor(platPower);
+        	Robot.lift.movePlat(platPower);
             encoder = (Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
             target = 130;
             drivePower = drivePID.pidCalculate(target, encoder);
@@ -115,7 +115,7 @@ public class AutonMode7 extends Command
             break;
         case driveArc2:
         	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
-        	Robot.lift.setPlatMotor(platPower);
+        	Robot.lift.movePlat(platPower);
             double encoder = (Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
             target = 25;
             drivePower = drivePID.pidCalculate(target, encoder);
@@ -160,7 +160,7 @@ public class AutonMode7 extends Command
             break;
         case turnRight90:
         	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
-        	Robot.lift.setPlatMotor(platPower);
+        	Robot.lift.movePlat(platPower);
             drivePower = gyroPID.pidCalculate(left*90, Robot.drive.getAngle())*0.5;
             System.out.println("Angle: " + Robot.drive.getAngle() + "\nPower: " + drivePower);
             Robot.drive.AutoDrive(-drivePower, drivePower);
@@ -233,6 +233,80 @@ public class AutonMode7 extends Command
         	}
         	break;
         }
+    }
+    public double xCalculate(double a, double b, double distance) {
+        double sum = 0;
+        double curX = 0;
+        double calcSlice = 0;
+        double deltaX = 0.05;
+        while (Math.abs(sum-distance)>0.2) {
+            //System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+            calcSlice = Math.sqrt(1+Math.pow(2*a*curX + b, 2))*deltaX;
+            sum+=(calcSlice);
+
+            curX+=deltaX;
+        }
+        //System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+        return curX;
+    }
+    public double yCalculate(double a, double b, double c, double x) {
+        double y = a*Math.pow(x, 2) + b*x + c;
+        return y;
+    }
+    public double angleCalculate(double a, double b, double c, double x) {
+        double slope = 2*a*x+b;
+        double angle = Math.toDegrees(Math.atan(slope));
+        return angle;
+    }
+    public double xEllipseCalculate(double a, double b, double distance) {
+        double semiperimeter = Math.PI*Math.sqrt((a*a+b*b)/2)/2.0;
+        quadrant = (int)(distance/semiperimeter)+1;
+        System.out.println(quadrant);
+        distance = distance-((quadrant-1)*semiperimeter);
+        if (quadrant == 2||quadrant == 4) {
+            distance = semiperimeter-distance;
+        }
+        System.out.println(distance);
+        double origA = a;
+        b = b / a;
+        distance = distance / a;
+        a = 1;
+        double sum = 0;
+        double curX = 0;
+        double calcSlice = 0;
+        double deltaX = 0.001;
+        while (Math.abs(sum - distance) > 0.001) {
+            // System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+            calcSlice = Math.sqrt(1 + Math.pow(-curX/(a*Math.sqrt(a*a-curX*curX)), 2)) * deltaX;
+            sum += (calcSlice);
+
+            curX += deltaX;
+        }
+        // System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+        double returnVal = (curX > a) ? a*origA : curX*origA;
+        return (quadrant == 3||quadrant == 4)? -returnVal: returnVal;
+    }
+
+    public double yEllipseCalculate(double a, double b, double x) {
+        double origA = a;
+        b = b / a;
+        x = x / a;
+        a = 1;
+        double y = Math.sqrt((a * a * b * b - b * b * x * x) / (a * a));
+        return origA*y;
+    }
+
+    public double angleEllipseCalculate(double a, double b, double x) {
+        x = Math.abs(x);
+        b = b / a;
+        x = x / a;
+        a = 1;
+        double slope = -x/(a*Math.sqrt(a*a-x*x));
+        double angle = Math.toDegrees(Math.atan(slope)); //((quadrant==1||quadrant==3)? 1:-1)
+        if (quadrant == 2) {
+            angle = ((angle>=0)? 1: -1) *(180-Math.abs(angle));
+        }
+        return angle;
     }
     @Override
     protected boolean isFinished()

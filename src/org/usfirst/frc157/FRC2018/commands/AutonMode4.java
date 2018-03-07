@@ -79,8 +79,8 @@ public class AutonMode4 extends Command
             case driveArc1:
             	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
             	elevatorPower = elevatorPID.pidCalculate(elevatorTarget, -Robot.lift.getStageEncoder());
-            	Robot.lift.setPlatMotor(platPower);
-            	Robot.lift.setElevatorMotor(elevatorPower);
+            	Robot.lift.movePlat(platPower);
+            	Robot.lift.moveStage(elevatorPower);
             	System.out.println("platPower: " +platPower);
             	System.out.println("elevatorPower: " +elevatorPower);
             	System.out.println("platEnc: " +Robot.lift.getPlatEncoder());
@@ -123,8 +123,8 @@ public class AutonMode4 extends Command
             	elevatorTarget = 0;
             	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
             	elevatorPower = elevatorPID.pidCalculate(elevatorTarget, -Robot.lift.getStageEncoder());
-            	Robot.lift.setPlatMotor(platPower);
-            	Robot.lift.setElevatorMotor(elevatorPower);
+            	Robot.lift.movePlat(platPower);
+            	Robot.lift.moveStage(elevatorPower);
             	System.out.println("platPower: " +platPower);
             	System.out.println("elevatorPower: " +elevatorPower);
             	System.out.println("platEnc: " +Robot.lift.getPlatEncoder());
@@ -175,8 +175,8 @@ public class AutonMode4 extends Command
             case turnRight90:
             	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
             	elevatorPower = elevatorPID.pidCalculate(elevatorTarget, -Robot.lift.getStageEncoder());
-            	Robot.lift.setPlatMotor(platPower);
-            	Robot.lift.setElevatorMotor(elevatorPower);
+            	Robot.lift.movePlat(platPower);
+            	Robot.lift.moveStage(elevatorPower);
             	System.out.println("platPower: " +platPower);
             	System.out.println("elevatorPower: " +elevatorPower);
             	System.out.println("platEnc: " +Robot.lift.getPlatEncoder());
@@ -204,8 +204,8 @@ public class AutonMode4 extends Command
             	elevatorTarget = 36;
             	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
             	elevatorPower = -elevatorPID.pidCalculate(elevatorTarget, -Robot.lift.getStageEncoder());
-            	Robot.lift.setPlatMotor(platPower);
-            	Robot.lift.setElevatorMotor(elevatorPower);
+            	Robot.lift.movePlat(platPower);
+            	Robot.lift.moveStage(elevatorPower);
             	System.out.println("platPower: " +platPower);
             	System.out.println("elevatorPower: " +elevatorPower);
             	System.out.println("platEnc: " +Robot.lift.getPlatEncoder());
@@ -234,8 +234,8 @@ public class AutonMode4 extends Command
             	elevatorTarget = 36;
             	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
             	elevatorPower = -elevatorPID.pidCalculate(elevatorTarget, -Robot.lift.getStageEncoder());
-            	Robot.lift.setPlatMotor(platPower);
-            	Robot.lift.setElevatorMotor(elevatorPower);
+            	Robot.lift.movePlat(platPower);
+            	Robot.lift.moveStage(elevatorPower);
             	System.out.println("platPower: " +platPower);
             	System.out.println("elevatorPower: " +elevatorPower);
             	System.out.println("platEnc: " +Robot.lift.getPlatEncoder());
@@ -281,8 +281,8 @@ public class AutonMode4 extends Command
             	elevatorTarget = 36;
             	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
             	elevatorPower = -elevatorPID.pidCalculate(elevatorTarget, -Robot.lift.getStageEncoder());
-            	Robot.lift.setPlatMotor(platPower);
-            	Robot.lift.setElevatorMotor(elevatorPower);
+            	Robot.lift.movePlat(platPower);
+            	Robot.lift.moveStage(elevatorPower);
             	System.out.println("platPower: " +platPower);
             	System.out.println("elevatorPower: " +elevatorPower);
             	System.out.println("platEnc: " +Robot.lift.getPlatEncoder());
