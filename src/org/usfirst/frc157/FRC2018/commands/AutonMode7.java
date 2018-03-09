@@ -216,7 +216,7 @@ public class AutonMode7 extends Command
         	System.out.println("wait1000Msec1");
         	repsAtTarget++;
         	System.out.println(repsAtTarget);
-        	if(repsAtTarget>=50) {
+        	if(repsAtTarget>=1) {
         		state = autonState.turnRight90;
         		System.out.println("moving to driveBack3");
         		repsAtTarget = 0;
@@ -226,7 +226,7 @@ public class AutonMode7 extends Command
     		System.out.println("wait1000Msec2 called");
         	repsAtTarget++;
         	System.out.println(repsAtTarget);
-        	if(repsAtTarget>=50) {
+        	if(repsAtTarget>=1) {
         		state = autonState.turnRight90;
         		System.out.println("moving to turnRight90");
         		repsAtTarget = 0;

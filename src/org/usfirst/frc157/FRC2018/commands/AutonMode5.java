@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AutonMode5 extends Command
 {
-	//same side switch
+	//middle auton
     public enum autonState 
     {
         driveArc1, wait1000Msec1, driveBack3, wait1000Msec2, turnRight90, driveArc2, turn0;
@@ -247,7 +247,7 @@ public class AutonMode5 extends Command
             	System.out.println("wait1000Msec1");
             	repsAtTarget++;
             	System.out.println(repsAtTarget);
-            	if(repsAtTarget>=50) {
+            	if(repsAtTarget>=1) {
             		state = autonState.turnRight90;
             		System.out.println("moving to driveBack3");
             		repsAtTarget = 0;
@@ -257,7 +257,7 @@ public class AutonMode5 extends Command
         		System.out.println("wait1000Msec2 called");
             	repsAtTarget++;
             	System.out.println(repsAtTarget);
-            	if(repsAtTarget>=50) {
+            	if(repsAtTarget>=1) {
             		state = autonState.turnRight90;
             		System.out.println("moving to turnRight90");
             		repsAtTarget = 0;

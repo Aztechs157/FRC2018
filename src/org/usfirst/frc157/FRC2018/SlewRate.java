@@ -16,7 +16,6 @@ public class SlewRate {
 	public double rateCalculate(double desired) {
 		double absDesired = Math.abs(desired);
 		double deltaTime = Timer.getFPGATimestamp()-lastTime;
-		System.out.println("Delta Time: "+ deltaTime);
 		double desiredAccel = (absDesired - lastRate)/deltaTime;
 		double addedRate;
 		double newRate;
@@ -30,7 +29,6 @@ public class SlewRate {
 		lastTime = lastTime+deltaTime;
 		lastRate = newRate;
 		double returnVal = ((desired>=0)? 1: -1)*newRate;
-		System.out.println("Return: "+returnVal);
 		return returnVal;
 	}
 	public void reinit() {

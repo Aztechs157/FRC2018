@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AutonMode2 extends Command
 {
-
+    //lit auton
     public enum autonState 
     {
         driveArc1, wait1000Msec1, driveBack3, wait1000Msec2, turnRight90, driveArc2;
@@ -53,6 +53,7 @@ public class AutonMode2 extends Command
     
     public AutonMode2()
     {
+        
         requires(Robot.drive);
         startTime = Timer.getFPGATimestamp();
         state = autonState.driveArc1;
