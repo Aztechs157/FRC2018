@@ -60,7 +60,7 @@ public class DriveLiftWithSticks extends Command {
         else if (direction < -0.2)
         {
             //System.out.println("down");
-            Robot.lift.move(Lift.direction.DOWN, -0.5);
+            Robot.lift.move(Lift.direction.DOWN, -0.75);
         }
         else
         {

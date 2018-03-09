@@ -128,9 +128,9 @@ public class OI {
         opBoxButtons[2][3].whileHeld(new MoveLiftToPos(5));
         //left Bumper 5 right Bumper 6 
         lBumper = new JoystickButton(gamePad,5);
-        lBumper.whenPressed(new grabberMove(true));
+        lBumper.whileHeld(new grabberMove(true));
         rBumper = new JoystickButton(gamePad,6);
-        rBumper.whenPressed(new grabberMove(false));
+        rBumper.whileHeld(new grabberMove(false));
         //used for dual joystick
         //AttackSwap = new JoystickButton(attackL, 6);
         //AttackSwap.whenPressed(new AtkSwap());

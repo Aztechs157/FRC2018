@@ -91,8 +91,10 @@ public class Drive extends Subsystem {
     {
         //DecimalFormat numberFormat = new DecimalFormat("0.00");
         double potentiometer = 1;//analogPotentiometer.get();
-        double left = Robot.oi.getgamePad().getRawAxis(OI.RYStick) * potentiometer;
-        double right = -Robot.oi.getgamePad().getRawAxis(OI.LYStick ) * potentiometer;
+        double left = Robot.oi.getgamePad().getRawAxis(OI.RYStick);
+        double right = -Robot.oi.getgamePad().getRawAxis(OI.LYStick);
+        left = /*((left>=0)? 1: -1)*/Math.pow(left,3)*0.80;
+        right = /*((right>=0)? 1: -1)*/Math.pow(right,3)*0.80;
         if (onestick==true)/////switched this to get mechanum only probably wrong but its 1:07am and i dont care
         {
             driveRight1.set(left); // Change to RDrive * potentiometer

@@ -47,11 +47,11 @@ public class grabberMove extends Command {
     protected void execute() {
         if (m_in)
         {
-            Robot.grabber.move(1);
+            Robot.grabber.move(-1);
         }
         else
         {
-            Robot.grabber.move(-1);
+            Robot.grabber.move(1);
         }
     }
 
