@@ -83,10 +83,10 @@ public class RobotMap {
         stageTalon = new WPI_TalonSRX(7);
         
         
-        stageTopLimit = new DigitalInput(20);
+        stageTopLimit = new DigitalInput(23);
         LiveWindow.addSensor("Extension", "extensionTopLimit", stageTopLimit);
         
-        stageBottomLimit = new DigitalInput(23);
+        stageBottomLimit = new DigitalInput(20);
         LiveWindow.addSensor("Extension", "extensionBottomLimit", stageBottomLimit);
         
         driveRight1 = new WPI_TalonSRX(1);
