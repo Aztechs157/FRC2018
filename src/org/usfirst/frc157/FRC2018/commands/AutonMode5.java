@@ -5,6 +5,7 @@ import org.usfirst.frc157.FRC2018.PID;
 import org.usfirst.frc157.FRC2018.Robot;
 import org.usfirst.frc157.FRC2018.SlewRate;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -48,6 +49,7 @@ public class AutonMode5 extends Command
     private double elevatorTarget;
     private PID elevatorPID;
     private PID platPID;
+    private boolean firstIteration;
     
     public AutonMode5(boolean left)
     {
@@ -57,17 +59,29 @@ public class AutonMode5 extends Command
         state = autonState.driveArc1;
         drivePID = new PID(0.025, 0.1, 0.000005, 10, 10, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
-        gyroPID = new PID(0.03, 0, 0.000003, 9999999, 9999999, 9999999, 999999);
-        platPID = new PID(2, 0, 0, 999999, 999999, 9999999, 99999);
+        gyroPID = new PID(0.04, 0, 0.000003, 9999999, 9999999, 9999999, 999999);
+        platPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
         System.out.println("I got called"); 
         slewRate = new SlewRate(0.1);
         this.left = (left)? 1: -1;
-        platTarget = 39;
+        platTarget = 30;
     }
 
     @Override
     protected void execute()
     {
+        String gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase();
+        if (gameData == null || gameData.equals("")) {
+            gameData = "ZZZ";
+        }
+        if (gameData.charAt(0)=='L')
+            left = 1;
+        else
+            left = -1;
+        if (firstIteration) {
+            startTime = Timer.getFPGATimestamp();
+            firstIteration = false;
+        }
     	/*if (pathOpen) {
     		pathManager.update(-(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0, Robot.drive.getAngle());
     	}*/
@@ -77,7 +91,7 @@ public class AutonMode5 extends Command
             case driveArc1:
             	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
             	Robot.lift.movePlat(platPower);
-                encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
+                encoder = (Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
                 target = 48;
                 drivePower = drivePID.pidCalculate(target, encoder);
                 if(!slewCut) {
@@ -86,6 +100,7 @@ public class AutonMode5 extends Command
                 if(Math.abs(drivePower)>=0.9) {
                 	slewCut = true;
                 }
+                System.out.println("Power: "+ drivePower);
                /* ellipseX = 144;
                 ellipseY = 48;
                 x = xEllipseCalculate(ellipseX, ellipseY, encoder);
@@ -122,7 +137,7 @@ public class AutonMode5 extends Command
             case driveArc2:
             	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
             	Robot.lift.movePlat(platPower);
-                double encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
+                double encoder = (Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
                 target = 56;
                 drivePower = drivePID.pidCalculate(target, encoder);
                /* if(!slewCut) {
@@ -171,13 +186,12 @@ public class AutonMode5 extends Command
                 drivePower = gyroPID.pidCalculate(left*-90, Robot.drive.getAngle());
                 System.out.println("Angle: " + Robot.drive.getAngle() + "\nPower: " + drivePower);
                 Robot.drive.AutoDrive(-drivePower, drivePower);
-                if (Math.abs(Robot.drive.getAngle() + left*90) < 2.0)
+                if (Math.abs(Robot.drive.getAngle() + left*90) < 4.0)
                 {
                     repsAtTarget++;
                     if (repsAtTarget >= 10)
                     {	
                     	reset();
-                    	slewRate = new SlewRate(0.002);
                         state = autonState.driveArc2;
                     }
                 }
@@ -189,16 +203,15 @@ public class AutonMode5 extends Command
             case turn0:
             	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
             	Robot.lift.movePlat(platPower);
-                drivePower = gyroPID.pidCalculate(0, Robot.drive.getAngle());
+                drivePower = gyroPID.pidCalculate(0, Robot.drive.getAngle())*0.5;
                 System.out.println("Angle: " + Robot.drive.getAngle() + "\nPower: " + drivePower);
                 Robot.drive.AutoDrive(-drivePower, drivePower);
-                if (Math.abs(Robot.drive.getAngle() - 0) < 2.0)
+                if (Math.abs(Robot.drive.getAngle() - 0) < 4.0)
                 {
                     repsAtTarget++;
                     if (repsAtTarget >= 10)
                     {	
                     	reset();
-                    	slewRate = new SlewRate(0.002);
                         state = autonState.driveBack3;
                     }
                 }
@@ -213,7 +226,7 @@ public class AutonMode5 extends Command
             	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
             	Robot.lift.movePlat(platPower);
         		System.out.println("driveBack3 called");
-            	encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
+            	encoder = (Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
                 target = 60;
                 drivePower = drivePID.pidCalculate(target, encoder);
                 
@@ -227,7 +240,7 @@ public class AutonMode5 extends Command
                 rightPower = ((rightPower > 0) ? 1 : -1) * Math.min(1, Math.abs(rightPower));
 
                 Robot.drive.AutoDrive(leftPower, rightPower);
-                if (Math.abs(encoder - target) < 3.0)
+                if (Math.abs(encoder - target) < 3.0 || Timer.getFPGATimestamp()-startTime > 14)
                 {
                     repsAtTarget++;
                     if (repsAtTarget >= 5)

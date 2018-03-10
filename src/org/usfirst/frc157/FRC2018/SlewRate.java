@@ -16,19 +16,22 @@ public class SlewRate {
 	public double rateCalculate(double desired) {
 		double absDesired = Math.abs(desired);
 		double deltaTime = Timer.getFPGATimestamp()-lastTime;
-		double desiredAccel = (absDesired - lastRate)/deltaTime;
+		double desiredAccel = (desired - lastRate)/deltaTime;
 		double addedRate;
 		double newRate;
-		if(desiredAccel>maxAccel) { 
-			addedRate = maxAccel*deltaTime;
-			newRate = addedRate+lastRate;
+		
+		if (Math.abs(desiredAccel) < maxAccel) {
+		    addedRate = desiredAccel*deltaTime;
+		    newRate = addedRate+lastRate;
 		}
 		else {
-			newRate = absDesired;
+		    addedRate = ((desiredAccel>0)? 1: -1)*maxAccel*deltaTime;
+            newRate = addedRate+lastRate;
 		}
 		lastTime = lastTime+deltaTime;
+	//	newRate = ((desired>=0)? 1: -1)*newRate;
 		lastRate = newRate;
-		double returnVal = ((desired>=0)? 1: -1)*newRate;
+		double returnVal = newRate;
 		return returnVal;
 	}
 	public void reinit() {

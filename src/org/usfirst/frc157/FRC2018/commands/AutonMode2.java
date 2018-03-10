@@ -63,7 +63,7 @@ public class AutonMode2 extends Command
         elevatorPID = new PID(2, 0, 0, 9999999, 9999999, 9999999, 999999);
 		platformPID = new PID(2, 0, 0, 99999,999999,99999,99999);
         System.out.println("I got called"); 
-        slewRate = new SlewRate(0.001);
+        slewRate = new SlewRate(0.1);
         platformTarget = 30;
 		elevatorTarget = 39;
        /* try {
