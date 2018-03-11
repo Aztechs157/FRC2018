@@ -63,7 +63,7 @@ public class AutonMode5 extends Command
         gyroPID = new PID(0.04, 0, 0.000003, 9999999, 9999999, 9999999, 999999);
         platPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
         System.out.println("Middle Switch got called"); 
-        slewRate = new SlewRate(0.7);
+        slewRate = new SlewRate(0.8);
         this.left = (left)? 1: -1;
         platTarget = 30;
         firstIteration = true;
@@ -263,7 +263,7 @@ public class AutonMode5 extends Command
             	Robot.lift.movePlat(platPower);
         		System.out.println("driveBack3 called");
             	encoder = (Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
-                target = 52;
+                target = 51;
                 drivePower = drivePID.pidCalculate(target, encoder);
                 if(!slewCut) {
                     drivePower = slewRate.rateCalculate(drivePower);
@@ -281,15 +281,15 @@ public class AutonMode5 extends Command
                 rightPower = ((rightPower > 0) ? 1 : -1) * Math.min(1, Math.abs(rightPower));
 
                 Robot.drive.AutoDrive(leftPower, rightPower);
-                if (Math.abs(encoder - target) < 3.0)// || Timer.getFPGATimestamp()-startTime > 14)
+                if (Math.abs(encoder - target) < 4.0 || Timer.getFPGATimestamp()-startTime >= 14)
                 {
                     repsAtTarget++;
-                    if (repsAtTarget >= 5)
+                    if (repsAtTarget >= 4)
                     {
                     	reset();
                     	Robot.grabber.move(1);
                     	autonFinished = true;
-                    //	state = autonState.driveArc3;
+                        // state = autonState.driveArc3;
                 		System.out.println("moving to wait1000Msec2");
                     }
                 }
@@ -427,7 +427,7 @@ public class AutonMode5 extends Command
                 }
                 break;
             case driveArc4:
-                encoder = -(Robot.drive.getRightEncoder() + Robot.drive.getLeftEncoder()) / 2.0;
+                encoder = (Robot.drive.getRightEncoder() + Robot.drive.getLeftEncoder()) / 2.0;
                 target = 91;
                 drivePower = drivePID.pidCalculate(target, encoder);
                 ellipseX = 60;
@@ -602,7 +602,7 @@ public class AutonMode5 extends Command
      	 Robot.drive.resetRightEncoder();
          repsAtTarget = 0;
          initAngle = Robot.drive.getAngle();
-         slewRate = new SlewRate(0.7);
+         slewRate = new SlewRate(0.8);
          slewCut = false;
     }
 }
