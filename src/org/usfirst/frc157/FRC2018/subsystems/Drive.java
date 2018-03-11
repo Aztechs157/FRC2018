@@ -63,8 +63,8 @@ public class Drive extends Subsystem {
     //private final AnalogPotentiometer analogPotentiometer = RobotMap.motorControllerTeAnalogPotentiometer;
     
     public Drive() {
-        leftSlew = new SlewRate(1);
-        rightSlew = new SlewRate(1);
+        leftSlew = new SlewRate(1.2);
+        rightSlew = new SlewRate(1.2);
     }
     @Override
     public void initDefaultCommand()
@@ -108,19 +108,17 @@ public class Drive extends Subsystem {
          
             if (mechDrive)
             {
-                double RxDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick);
-                double lxDrive = Robot.oi.getgamePad().getRawAxis(OI.LXStick);
-                driveRightSet((-right + RxDrive));
-                driveLeftSet((right + RxDrive));
+                double RxDrive = -Robot.oi.getgamePad().getRawAxis(OI.LYStick);
+                double lYDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick);
+                driveRightSet(lYDrive-RxDrive);
+                driveLeftSet(lYDrive+RxDrive);
+               
              
-                {
-           
-                }
             }
             else
             {
                 double RxDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick) * potentiometer;
-                driveRightSet((left + RxDrive));
+                driveRightSet((left - RxDrive));
                 driveLeftSet((-left + RxDrive));
                 {
                 System.out.println("tank drive");
@@ -135,7 +133,7 @@ public class Drive extends Subsystem {
         driveRight1.set(power);
     }
     public void driveLeftSet(double power) {
-        power = rightSlew.rateCalculate(power);
+        power = leftSlew.rateCalculate(power);
         driveLeft1.set(power);
     }
     public double getLeftEncoder()

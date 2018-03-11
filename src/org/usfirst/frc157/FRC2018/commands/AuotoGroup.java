@@ -56,45 +56,48 @@ public class AuotoGroup extends CommandGroup
         gameData = DriverStation.getInstance().getGameSpecificMessage().toUpperCase();
      
         System.out.println("gameData");
-        int autonRoutine = getPotVal();
+        autonMode autonRoutine = autonArray[getPotVal()];
         System.out.println(autonRoutine);
         switch (autonRoutine)
         {
-            case 0: // do nothing
+            case mode0: // do nothing
                 addSequential(new AutonMode0());
                 break;
-            case 1: // cross the auto line
+            case mode1: // cross the auto line
                 addSequential(new AutonMode1());
                 break;
-            case 2: // lining up middle, going for switch
+            case mode2: // lining up middle, going for switch
               //  if (gameData.charAt(0) == 'L')
                     addSequential(new AutonMode5(true));
               //  else
                //     addSequential(new AutonMode5(false));
                 break;
-            case 3: // lining up left side, going for switch
+            case mode3: // lining up left side, going for switch
              //   if (gameData.charAt(0) == 'L')
                     addSequential(new AutonMode7(true));
              //   else
                     addSequential(new AutonMode1());
                 break;
-            case 4: // lining up left side, going for scale
+            case mode4: // lining up left side, going for scale
              //   if (gameData.charAt(1) == 'L')
                     addSequential(new AutonMode3(true));
              //   else
                     addSequential(new AutonMode4(true));
                 break;
-            case 5: // lining up right side, going for switch
+            case mode5: // lining up right side, going for switch
                // if (gameData.charAt(0) == 'R')
                     addSequential(new AutonMode7(false));
               //  else
                    // addSequential(new AutonMode1());
                 break;
-            case 6: // lining up right side, going for scale
+            case mode6: // lining up right side, going for scale
             //    if (gameData.charAt(1) == 'R')
                     addSequential(new AutonMode3(false));
              //   else
                     addSequential(new AutonMode4(false));
+                break;
+            case mode7:
+                addSequential(new CrossLineWithSensors());
                 break;
             default:
                 addSequential(new AutonMode0());

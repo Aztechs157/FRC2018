@@ -146,6 +146,9 @@ public class Lift extends Subsystem {
             }
         }
     }
+    public void setPlat(double speed) {
+        platformMotor.set(speed);
+    }
     public void moveStage(double speed)
     {
         if (speed < 0)
@@ -174,9 +177,9 @@ public class Lift extends Subsystem {
     public void stopPlat()
     {
         //System.out.println("moving plat down");
-        if (!platformBottomLimit.get() && !platformTopLimit.get())
+        if (!platformBottomLimit.get())
         {
-            platformMotor.set(0.2);
+            platformMotor.set(0.15);
         }
         else
         {
@@ -187,9 +190,9 @@ public class Lift extends Subsystem {
     }
     public void stopStage()
     {
-        if (!extensionTopLimit.get() && !extensionBottomLimit.get())
+        if (!extensionBottomLimit.get())
         {
-            extensionMotor.set(-0.2);
+            extensionMotor.set(-0.15);
         }
         else
         {

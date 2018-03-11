@@ -117,7 +117,7 @@ public class AutonMode2 extends Command
 
                 Robot.drive.AutoDrive(leftPower, rightPower);
                 if (Math.abs(encoder - target) < 5.0)
-                {
+                {   
                     repsAtTarget++;
                     if (repsAtTarget >= 5)
                     {
