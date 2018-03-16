@@ -21,5 +21,6 @@
 	<classpathentry kind="lib" path="C:/Users/USROBOT/wpilib/java/current/lib/WPILib-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/USROBOT/wpilib/java/current/lib/wpiutil.jar"/>
 	<classpathentry kind="lib" path="C:/Users/USROBOT/wpilib/java/current/lib/wpiutil-sources.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CANJaguar.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

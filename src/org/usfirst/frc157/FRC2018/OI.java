@@ -83,6 +83,7 @@ public class OI {
     public static final int RYStick = 5;
     public static final int RxStick = 4;
     public static final int JoyY = 1;
+    public static final int JoyX = 0;
     public static final int Ratk = 1;
     public static final int Latk = 1;
     public static final int LatkPot = 2;
