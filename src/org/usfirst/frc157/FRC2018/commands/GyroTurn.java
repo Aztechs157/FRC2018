@@ -1,0 +1,89 @@
+package org.usfirst.frc157.FRC2018.commands;
+
+import org.usfirst.frc157.FRC2018.PID;
+import org.usfirst.frc157.FRC2018.Robot;
+import org.usfirst.frc157.FRC2018.SlewRate;
+
+import edu.wpi.first.wpilibj.Timer;
+
+public class GyroTurn
+{
+    private int target;
+    private double startTime;
+    private double time;
+    private double drivePower;
+    private PID gyroPID;
+    private SlewRate slewRate;
+    private boolean slewCut;
+    private int repsAtTarget;
+    private int tolerance;
+    private double scalar;
+    private boolean firstIteration;
+    
+    public GyroTurn(int target, int tolerance, double time, double scalar) 
+    {
+        this.target = target;
+        this.time = time;
+        this.tolerance = tolerance;
+        this.scalar = scalar;
+        slewCut = false;
+        gyroPID = new PID(0.04, 0, 0.000003, 9999999, 9999999, 9999999, 999999);
+        slewRate = new SlewRate(0.8);
+        firstIteration = true;
+        repsAtTarget = 0;
+    }
+    
+    public GyroTurn(int target, int tolerance, double time, double scalar, boolean slew) 
+    {
+        this.target = target;
+        this.time = time;
+        this.slewCut = slew;
+        this.tolerance = tolerance;
+        this.scalar = scalar;
+        this.slewCut = slew;
+        slewRate = new SlewRate(0.8);
+        gyroPID = new PID(0.04, 0, 0.000003, 9999999, 9999999, 9999999, 999999);
+        firstIteration = true;
+        repsAtTarget = 0;
+    }
+    
+    public boolean execute() {
+        
+        if (firstIteration) {
+            startTime = Timer.getFPGATimestamp();
+            slewRate.reinit();
+            firstIteration = false;
+        }
+        
+        drivePower = gyroPID.pidCalculate(target, Robot.drive.getAngle())*scalar;
+        
+        if(!slewCut) {
+            drivePower = slewRate.rateCalculate(drivePower);
+        }
+        if(Math.abs(drivePower)>=0.9*scalar) {
+            slewCut = true;
+        }
+        
+        Robot.drive.AutoDrive(-drivePower, drivePower);
+        
+        if (Math.abs(Robot.drive.getAngle() - target) < tolerance)
+        {
+            repsAtTarget++;
+            if (repsAtTarget >= 5)
+            {   
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if (Timer.getFPGATimestamp()-startTime>= time) {
+            return true;
+        }
+        else
+        {
+            repsAtTarget = 0;
+            return false;
+        }
+    }
+}

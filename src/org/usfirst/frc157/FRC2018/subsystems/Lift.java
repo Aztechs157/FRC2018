@@ -149,6 +149,9 @@ public class Lift extends Subsystem {
     public void setPlat(double speed) {
         platformMotor.set(speed);
     }
+    public void setStage(double speed) {
+        extensionMotor.set(speed);
+    }
     public void moveStage(double speed)
     {
         if (speed < 0)

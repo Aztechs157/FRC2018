@@ -60,11 +60,15 @@ public class Drive extends Subsystem {
     private final AnalogGyro gyro = RobotMap.driveGyro;
     private SlewRate leftSlew;
     private SlewRate rightSlew;
+    private SlewRate leftTurnSlew;
+    private SlewRate rightTurnSlew;
     //private final AnalogPotentiometer analogPotentiometer = RobotMap.motorControllerTeAnalogPotentiometer;
     
     public Drive() {
         leftSlew = new SlewRate(1.2);
         rightSlew = new SlewRate(1.2);
+        leftTurnSlew = new SlewRate(1.6);
+        rightTurnSlew = new SlewRate(1.6);
     }
     @Override
     public void initDefaultCommand()
@@ -105,23 +109,25 @@ public class Drive extends Subsystem {
         }
         else
         {
-         
+          //   mechDrive = false;
             if (mechDrive)
             {
                 double RxDrive = -Robot.oi.getgamePad().getRawAxis(OI.LYStick);
                 double lYDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick);
                 driveRightSet(lYDrive-RxDrive);
                 driveLeftSet(lYDrive+RxDrive);
-               
+               // driveSet(lYDrive+RxDrive,lYDrive-RxDrive );
              
             }
             else
             {
-                double RxDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick) * potentiometer;
-                driveRightSet((left - RxDrive));
-                driveLeftSet((-left + RxDrive));
+             //   double RxDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick) * potentiometer;
+                double RxDrive = -Robot.oi.getgamePad().getRawAxis(OI.RYStick);
+                double lYDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick);
+                driveRightSet(lYDrive-RxDrive);
+                driveLeftSet(lYDrive+RxDrive);
                 {
-                System.out.println("tank drive");
+                     System.out.println("tank drive");
                 }
             }
         }
@@ -135,6 +141,18 @@ public class Drive extends Subsystem {
     public void driveLeftSet(double power) {
         power = leftSlew.rateCalculate(power);
         driveLeft1.set(power);
+    }
+    public void driveSet(double leftPower, double rightPower) {
+        if ((leftPower > 0 && rightPower>0) || (leftPower<0 && rightPower<0)) {
+            leftPower = leftSlew.rateCalculate(leftPower);
+            rightPower = rightSlew.rateCalculate(rightPower);
+        }
+        else {
+            leftPower = leftTurnSlew.rateCalculate(leftPower, 1.8);
+            rightPower = rightTurnSlew.rateCalculate(rightPower, 1.8);
+        }
+        driveLeft1.set(leftPower);
+        driveRight1.set(rightPower);
     }
     public double getLeftEncoder()
     {
