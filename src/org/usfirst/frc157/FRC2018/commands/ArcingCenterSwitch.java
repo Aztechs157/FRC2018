@@ -1,5 +1,5 @@
 
-/*package org.usfirst.frc157.FRC2018.commands;
+package org.usfirst.frc157.FRC2018.commands;
 
 import org.usfirst.frc157.FRC2018.PID;
 import org.usfirst.frc157.FRC2018.Robot;
@@ -33,20 +33,15 @@ public class ArcingCenterSwitch extends Command
         this.left = (left)? 1: -1;
         platTarget = 30;
         
-       /* arc1 = new Ellipse(44, )
-        forward1 = new DriveTarget(44, 0, 3, 3);
-        turn1 = new GyroTurn(this.left*-90, 3, 3, 0.4);
-        forward2 = new DriveTarget(((this.left == 1)? 54: 44), this.left*-90, 3, 3);
-        turn2 = new GyroTurn(0, 3, 3, 0.4); 
-        forward3 = new DriveTarget(51, 0, 3, 3);
+        arc1 = new Ellipse(44, ((this.left == 1)? 54: 44), (this.left == 1)? )
     }
-/*
+
     @Override
     protected void execute()
     {
         switch (state)
         {
-            case forward1:
+            case arc1:
                 platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
                 Robot.lift.movePlat(platPower);
                 if (forward1.execute()) {
@@ -54,31 +49,7 @@ public class ArcingCenterSwitch extends Command
                     reset();
                 }
                 break;
-            case turn1:
-                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
-                Robot.lift.movePlat(platPower);
-                 if (turn1.execute()) {
-                     state = autonState.forward2;
-                     reset();
-                 }
-                break;
-            case forward2:
-                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
-                Robot.lift.movePlat(platPower);
-                if (forward2.execute()) {
-                     state = autonState.turn2;
-                     reset();
-                 }
-                break;
-            case turn2:
-                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
-                Robot.lift.movePlat(platPower);
-                if (turn2.execute()) {
-                    state = autonState.forward3;
-                    reset();
-                }
-                break;
-            case forward3:
+            case arc2:
                 platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
                  if (forward3.execute()) {
                      autonFinished = true;
@@ -99,4 +70,4 @@ public class ArcingCenterSwitch extends Command
          Robot.drive.resetLeftEncoder();
          Robot.drive.resetRightEncoder();
     }
-}*/
+}

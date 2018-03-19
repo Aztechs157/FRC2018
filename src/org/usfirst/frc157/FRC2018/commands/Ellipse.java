@@ -26,15 +26,18 @@ public class Ellipse
     private double a;
     private double b;
     private int quadrant;
+    private int direction;
 
     public Ellipse(double a, double b, int direction, int target, double targetAngle, int tolerance, double time)
     {
         this.a = a;
         this.b = b;
+        this.direction = direction;
         this.target = target;
         this.time = time;
         this.targetAngle = targetAngle;
         this.tolerance = tolerance;
+        quadrant = 1;
         slewCut = true;
         drivePID = new PID(0.028, 0.1, 0.000005, 10, 10, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
@@ -42,8 +45,9 @@ public class Ellipse
         firstIteration = true;
     }
 
-    public Ellipse(double a, double b, int target, double targetAngle, int tolerance, double time, boolean slew)
+    public Ellipse(double a, double b, int direction, int target, double targetAngle, int tolerance, double time, boolean slew)
     {
+    	this.direction = direction;
         this.a = a;
         this.b = b;
         this.target = target;
@@ -51,6 +55,7 @@ public class Ellipse
         this.targetAngle = targetAngle;
         this.slewCut = slew;
         this.tolerance = tolerance;
+        quadrant = 1;
         drivePID = new PID(0.028, 0.1, 0.000005, 10, 10, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
         slewRate = new SlewRate(0.8);
@@ -77,11 +82,14 @@ public class Ellipse
         {
             slewCut = true;
         }
-
-        leftPower = drivePower - gyroDrivePID.pidCalculate(targetAngle, Robot.drive.getAngle());
+        
+        double x = xEllipseCalculate(encoder);
+        double angle = direction*angleEllipseCalculate(x);
+        
+        leftPower = drivePower - gyroDrivePID.pidCalculate(targetAngle + angle, Robot.drive.getAngle());
         leftPower = ((leftPower > 0) ? 1 : -1) * Math.min(1, Math.abs(leftPower));
 
-        rightPower = drivePower + gyroDrivePID.pidCalculate(targetAngle, Robot.drive.getAngle());
+        rightPower = drivePower + gyroDrivePID.pidCalculate(targetAngle + angle, Robot.drive.getAngle());
         rightPower = ((rightPower > 0) ? 1 : -1) * Math.min(1, Math.abs(rightPower));
 
         Robot.drive.AutoDrive(leftPower, rightPower);
@@ -106,12 +114,6 @@ public class Ellipse
             repsAtTarget = 0;
             return false;
         }
-    }
-
-    public Ellipse(double a, double b)
-    {
-        this.a = a;
-        this.b = b;
     }
 
     public double xEllipseCalculate(double distance)

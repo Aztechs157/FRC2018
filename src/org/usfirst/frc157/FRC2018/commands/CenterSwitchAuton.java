@@ -82,7 +82,9 @@ public class CenterSwitchAuton extends Command
                 break;
             case forward3:
             	platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
+            	Robot.lift.movePlat(platPower);
             	 if (forward3.execute()) {
+            		 Robot.grabber.move(1);
                      autonFinished = true;
                      reset();
                  }
