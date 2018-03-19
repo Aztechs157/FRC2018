@@ -63,15 +63,11 @@ public class Drive extends Subsystem {
     private final AnalogGyro gyro = RobotMap.driveGyro;
     private SlewRate leftSlew;
     private SlewRate rightSlew;
-    private SlewRate leftTurnSlew;
-    private SlewRate rightTurnSlew;
     //private final AnalogPotentiometer analogPotentiometer = RobotMap.motorControllerTeAnalogPotentiometer;
     
     public Drive() {
         leftSlew = new SlewRate(1.2);
         rightSlew = new SlewRate(1.2);
-        leftTurnSlew = new SlewRate(1.6);
-        rightTurnSlew = new SlewRate(1.6);
     }
     @Override
     public void initDefaultCommand()
@@ -155,8 +151,8 @@ public class Drive extends Subsystem {
             rightPower = rightSlew.rateCalculate(rightPower);
         }
         else {
-            leftPower = leftTurnSlew.rateCalculate(leftPower, 1.8);
-            rightPower = rightTurnSlew.rateCalculate(rightPower, 1.8);
+            leftPower = leftSlew.rateCalculate(leftPower, 1.8);
+            rightPower = rightSlew.rateCalculate(rightPower, 1.8);
         }
         driveLeft1.set(leftPower);
         driveRight1.set(rightPower);

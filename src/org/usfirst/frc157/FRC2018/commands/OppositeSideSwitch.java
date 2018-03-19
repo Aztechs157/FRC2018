@@ -50,7 +50,6 @@ public class OppositeSideSwitch extends Command
             case forward1:
                 platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
                 Robot.lift.movePlat(platPower);
-                
                 if (forward1.execute()) {
                     reset();
                     state = autonState.turn1;

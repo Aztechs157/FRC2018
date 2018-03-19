@@ -23,8 +23,8 @@ public class DriveTarget
     private int repsAtTarget;
     private int tolerance;
     private boolean firstIteration;
-    
-    public DriveTarget(int target, double targetAngle, int tolerance, double time) 
+
+    public DriveTarget(int target, double targetAngle, int tolerance, double time)
     {
         this.target = target;
         this.time = time;
@@ -36,8 +36,8 @@ public class DriveTarget
         slewRate = new SlewRate(0.8);
         firstIteration = true;
     }
-    
-    public DriveTarget(int target, double targetAngle, int tolerance, double time, boolean slew) 
+
+    public DriveTarget(int target, double targetAngle, int tolerance, double time, boolean slew)
     {
         this.target = target;
         this.time = time;
@@ -49,9 +49,9 @@ public class DriveTarget
         slewRate = new SlewRate(0.5);
         firstIteration = true;
     }
-    
+
     public boolean execute() {
-        
+
         if (firstIteration) {
             startTime = Timer.getFPGATimestamp();
             slewRate.reinit();

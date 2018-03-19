@@ -17,7 +17,7 @@ public class SlewRate {
 	    return rateCalculate(desired, standardMaxAccel);
 	}
 	public double rateCalculate(double desired, double maxAccel) {
-	    
+
 		double deltaTime = Timer.getFPGATimestamp()-lastTime;
 		double desiredAccel = (desired - lastRate)/deltaTime;
 		double addedRate;
@@ -33,7 +33,7 @@ public class SlewRate {
 		}
 		lastTime = lastTime+deltaTime;
 		lastRate = newRate;
-		
+
 		double returnVal = newRate;
 		return returnVal;
 	}

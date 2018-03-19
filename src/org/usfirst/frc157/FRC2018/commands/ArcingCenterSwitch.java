@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ArcingCenterSwitch extends Command
 {
     //middle auton
-    public enum autonState 
+    public enum autonState
     {
         arc1, arc2;
     }
@@ -22,22 +22,22 @@ public class ArcingCenterSwitch extends Command
     private PID platPID;
     private Ellipse arc1;
     private Ellipse arc2;
-    
+
     public ArcingCenterSwitch(boolean left)
     {
         //middle auton
         requires(Robot.drive);
         state = autonState.arc1;
         platPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
-        System.out.println("Middle Switch got instantiated"); 
+        System.out.println("Middle Switch got instantiated");
         this.left = (left)? 1: -1;
         platTarget = 30;
-        
+
        /* arc1 = new Ellipse(44, )
         forward1 = new DriveTarget(44, 0, 3, 3);
         turn1 = new GyroTurn(this.left*-90, 3, 3, 0.4);
         forward2 = new DriveTarget(((this.left == 1)? 54: 44), this.left*-90, 3, 3);
-        turn2 = new GyroTurn(0, 3, 3, 0.4); 
+        turn2 = new GyroTurn(0, 3, 3, 0.4);
         forward3 = new DriveTarget(51, 0, 3, 3);
     }
 /*
@@ -84,10 +84,10 @@ public class ArcingCenterSwitch extends Command
                      autonFinished = true;
                      reset();
                  }
-                break;           
+                break;
         }
     }
-    
+
     @Override
     protected boolean isFinished()
     {

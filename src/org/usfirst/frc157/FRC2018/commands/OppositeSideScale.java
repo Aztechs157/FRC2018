@@ -124,14 +124,14 @@ public class OppositeSideScale extends Command
                 break;
         }
     }
-    
+
     public void moveLift() {
      //   platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
      //   Robot.lift.setPlat(platPower);
       //  elevatorPower = elevatorPID.pidCalculate(elevatorTarget, Robot.lift.getStageEncoder());
       //  Robot.lift.setStage(-elevatorPower);
     }
-    
+
     @Override
     protected boolean isFinished()
     {
