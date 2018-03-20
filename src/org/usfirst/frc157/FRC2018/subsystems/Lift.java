@@ -139,6 +139,10 @@ public class Lift extends Subsystem
         platformMotor.set(speed);
     }
 
+    public void setStage(double speed) {
+        extensionMotor.set(speed);
+    }
+
     public void moveStage(double speed)
     {
         if (speed < 0)
