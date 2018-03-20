@@ -12,6 +12,9 @@
 package org.usfirst.frc157.FRC2018;
 
 import org.usfirst.frc157.FRC2018.commands.*;
+import org.usfirst.frc157.FRC2018.subsystems.Lift;
+import org.usfirst.frc157.FRC2018.subsystems.Lift.direction;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
@@ -108,19 +111,23 @@ public class OI {
         k11 = new JoystickButton(opBox, 11);
         sT = new JoystickButton(opBox, 10);
         sE = new JoystickButton(opBox, 9);
-        r1 = new JoystickButton(opBox, 8);
-        l1 = new JoystickButton(opBox, 7);
+        //r1 = new JoystickButton(opBox, 8);
+        //l1 = new JoystickButton(opBox, 7);
         r2 = new JoystickButton(opBox, 6);
         l2 = new JoystickButton(opBox, 5);
         k4 = new JoystickButton(opBox, 4);
         k3 = new JoystickButton(opBox, 3);
         k2 = new JoystickButton(opBox, 2);
         k1 = new JoystickButton(opBox, 1);
+        l1 = new JoystickButton(operatorGamePad, 5);
+        r1 = new JoystickButton(operatorGamePad, 6);
         opBoxButtons = new JoystickButton[][]{
                 {k1, k2, k3, k4},
                 {l2, r2, l1, r1},
                 {sE, sT, k11, k12}
         };
+        l1.whileHeld(new opMoveDown());
+        r1.whileHeld(new opMoveUp());
         opBoxButtons[0][0].whileHeld(new grabberMove(true));
         opBoxButtons[1][0].whileHeld(new grabberMove(false));
         opBoxButtons[2][0].whileHeld(new Debug());
