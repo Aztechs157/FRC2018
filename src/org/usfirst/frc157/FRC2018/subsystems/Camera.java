@@ -23,7 +23,7 @@ public class Camera extends Subsystem {
             cam0 = CameraServer.getInstance().startAutomaticCapture();
             cam0.setResolution(320, 240); // (640, 480), (320, 240) (160, 120)
             cam0.setFPS(12);
-            cam0.setBrightness(30);
+            cam0.setBrightness(25);
             if(!cam0.isConnected()) System.err.println("CAMERA IS NOT PLUGGED IN!");
             setDefaultCommand(new CameraController());
     }
