@@ -80,6 +80,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
+        Lift.platLast = lift.getPlatEncoder();
+        Lift.stageLast = lift.getStageEncoder();
         Scheduler.getInstance().run();
     }
 

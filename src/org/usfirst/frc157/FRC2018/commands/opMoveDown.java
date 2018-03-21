@@ -48,7 +48,7 @@ public class opMoveDown extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.lift.move(direction.DOWN, false, -0.75);
+        Robot.lift.move(direction.DOWN, -0.75);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -48,7 +48,7 @@ public class opMoveUp extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.lift.move(direction.UP, false, 1);
+        Robot.lift.move(direction.UP, 1);
     }
 
     // Make this return true when this Command no longer needs to run execute()

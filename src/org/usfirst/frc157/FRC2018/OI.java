@@ -109,7 +109,6 @@ public class OI {
         */
         k12 = new JoystickButton(opBox, 12);
         k11 = new JoystickButton(opBox, 11);
-        sT = new JoystickButton(opBox, 10);
         sE = new JoystickButton(opBox, 9);
         //r1 = new JoystickButton(opBox, 8);
         //l1 = new JoystickButton(opBox, 7);
