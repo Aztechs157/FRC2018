@@ -194,7 +194,7 @@ public class MoveLiftToPos extends Command {
                 finished = true;
             }
         }
-        finished = (Robot.oi.getopBox().getRawAxis(OI.JoyY) > 0.5 || Robot.oi.getopBox().getRawAxis(OI.JoyY) < -0.5)?true:finished;
+        //finished = (Robot.oi.getopBox().getRawAxis(OI.JoyY) > 0.5 || Robot.oi.getopBox().getRawAxis(OI.JoyY) < -0.5)?true:finished;
         //System.out.println(finished);
         return finished;
     }

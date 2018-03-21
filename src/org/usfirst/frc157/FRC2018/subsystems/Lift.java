@@ -103,7 +103,6 @@ public class Lift extends Subsystem
         platformMotor.set(ControlMode.PercentOutput, 0.0);
 
         extensionMotor.set(ControlMode.PercentOutput, 0.0);
-        setDefaultCommand(new DriveLiftWithSticks());
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
