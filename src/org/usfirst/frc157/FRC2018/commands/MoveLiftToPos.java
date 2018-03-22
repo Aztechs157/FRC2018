@@ -140,9 +140,9 @@ public class MoveLiftToPos extends Command {
         {
             SmartDashboard.putNumber("Ppi", posPlatInterm);
             SmartDashboard.putBoolean("test", true);
-            if (Robot.lift.getPlatEncoder() < posPlatInterm-0.5)
+            if (Robot.lift.getPlatEncoder() < posPlatInterm)
             {
-                Robot.lift.movePlat(0.5);
+                Robot.lift.movePlat(Robot.lift.platPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
             }
             else
             {
@@ -152,13 +152,13 @@ public class MoveLiftToPos extends Command {
         }
         else
         {
-            if (Robot.lift.getPlatEncoder() < posPlatFinal-.5)
+            if (Robot.lift.getPlatEncoder() < posPlatFinal)
             {
-                Robot.lift.movePlat(-0.3);
+                Robot.lift.movePlat(Robot.lift.platPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
             }
-            else if (Robot.lift.getPlatEncoder() > posPlatFinal+.5)
+            else if (Robot.lift.getPlatEncoder() > posPlatFinal)
             {
-                Robot.lift.movePlat(0.5);
+                Robot.lift.movePlat(Robot.lift.platPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
             }
             else
             {
@@ -168,11 +168,11 @@ public class MoveLiftToPos extends Command {
             SmartDashboard.putBoolean("test4", Robot.lift.getStageEncoder() > posStageFinal - .5);
             if (Robot.lift.getStageEncoder() < posStageFinal - .5)
             {
-                Robot.lift.moveStage(-0.5);
+                Robot.lift.moveStage(-Robot.lift.stagePID.pidCalculate(posStageFinal, Robot.lift.getStageEncoder()));
             }
-            else if (Robot.lift.getStageEncoder() > posPlatFinal + .5)
+            else if (Robot.lift.getStageEncoder() > posStageFinal + .5)
             {
-                Robot.lift.moveStage(0.3);
+                Robot.lift.moveStage(-Robot.lift.stagePID.pidCalculate(posStageFinal, Robot.lift.getStageEncoder()));
             }
             else
             {
@@ -186,7 +186,7 @@ public class MoveLiftToPos extends Command {
     protected boolean isFinished() {
         double pos = Robot.lift.getPlatEncoder();
         boolean finished = false;
-        if (pos >= posPlatFinal - .5 && pos <= posPlatFinal + .5)
+        if (pos >= posPlatFinal && pos <= posPlatFinal)
         {
             pos = Robot.lift.getStageEncoder();
             if (pos >= posStageFinal - .5 && pos <= posStageFinal + .5)
@@ -194,7 +194,7 @@ public class MoveLiftToPos extends Command {
                 finished = true;
             }
         }
-        finished = (Robot.oi.getopBox().getRawAxis(OI.JoyY) > 0.5 || Robot.oi.getopBox().getRawAxis(OI.JoyY) < -0.5)?true:finished;
+        //finished = (Robot.oi.getopBox().getRawAxis(OI.JoyY) > 0.5 || Robot.oi.getopBox().getRawAxis(OI.JoyY) < -0.5)?true:finished;
         //System.out.println(finished);
         return finished;
     }

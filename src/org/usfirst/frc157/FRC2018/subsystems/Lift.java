@@ -10,6 +10,11 @@
 
 package org.usfirst.frc157.FRC2018.subsystems;
 
+import org.usfirst.frc157.FRC2018.PID;
+
+//import java.text.DecimalFormat;
+
+//import org.usfirst.frc157.FRC2018.Robot;
 import org.usfirst.frc157.FRC2018.RobotMap;
 import org.usfirst.frc157.FRC2018.commands.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -40,49 +45,16 @@ public class Lift extends Subsystem
     private final WPI_TalonSRX platformMotor = RobotMap.platformTalon;
     private final Encoder platformQuad = RobotMap.platformQuad;
     private final Encoder extensionQuad = RobotMap.stageQuad;
-
-    public void resetPlatEncoder()
-    {
-        platformQuad.reset();
-    }
-
-    public void resetStageEncoder()
-    {
-        extensionQuad.reset();
-    }
-
-    /**
-     * @return the extensionTopLimit
-     */
-    public boolean getExtensionTopLimit()
-    {
-        return extensionTopLimit.get();
-    }
-
-    /**
-     * @return the extensionBottomLimit
-     */
-    public boolean getExtensionBottomLimit()
-    {
-        return extensionBottomLimit.get();
-    }
-
-    /**
-     * @return the platformTopLimit
-     */
-    public boolean getPlatformTopLimit()
-    {
-        return platformTopLimit.get();
-    }
-
-    /**
-     * @return the platformBottomLimit
-     */
-    public boolean getPlatformBottomLimit()
-    {
-        return platformBottomLimit.get();
-    }
-
+    private final double scale = 1;
+    private static final double STAGETOP = 39;
+    private static final double PLATTOP = 40.5;
+    public PID platTopPID = new PID(1, 0, 0.00000, 999999, 99999, 999999, 9999999);
+    public PID platPID = new PID(0.6, 0, 0.0000000, 999999, 99999, 999999, 9999999);
+    public PID platDownPID = new PID(0.5, 0, 0.00003, 999999, 99999, 999999, 9999999);
+    public PID stagePID = new PID(0.5, 0, 0, 999999, 99999, 999999, 9999999);
+    public PID stageDownPID = new PID(0.5, 0, 0.00001, 999999, 99999, 999999, 9999999);
+    public static double platLast = 0;
+    public static double stageLast = 0;
     public static enum direction
     {
         UP, DOWN,
@@ -103,13 +75,14 @@ public class Lift extends Subsystem
         platformMotor.set(ControlMode.PercentOutput, 0.0);
 
         extensionMotor.set(ControlMode.PercentOutput, 0.0);
-        setDefaultCommand(new DriveLiftWithSticks());
+        setDefaultCommand(new StopLift());
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
 
     public void movePlat(double speed)
     {
+        platLast = Double.NaN;
         if (speed > 0)
         {
             if (!platformTopLimit.get())
@@ -133,17 +106,34 @@ public class Lift extends Subsystem
             }
         }
     }
-
-    public void setPlat(double speed)
+    public void movePlatNoReset(double speed)
     {
-        platformMotor.set(speed);
+        //platLast = Double.NaN;
+        if (speed > 0)
+        {
+            if (!platformTopLimit.get())
+            {
+                platformMotor.set(speed);
+            }
+            else
+            {
+                //System.out.println("movePlatNoReset stopped me");
+                platformMotor.set(0);
+            }
+        }
+        else
+        {
+            if (!platformBottomLimit.get())
+            {
+                platformMotor.set(speed);
+            }
+            else
+            {
+                platformMotor.set(0);;
+            }
+        }
     }
-
-    public void setStage(double speed) {
-        extensionMotor.set(speed);
-    }
-
-    public void moveStage(double speed)
+    public void moveStageNoReset(double speed)
     {
         if (speed < 0)
         {
@@ -153,7 +143,7 @@ public class Lift extends Subsystem
             }
             else
             {
-                stopPlat();
+                extensionMotor.set(0);
             }
         }
         else
@@ -164,133 +154,95 @@ public class Lift extends Subsystem
             }
             else
             {
-                stopPlat();
+                extensionMotor.set(0);
             }
         }
     }
-
+    public void moveStage(double speed)
+    {
+        stageLast = Double.NaN;
+        if (speed < 0)
+        {
+            if (!extensionTopLimit.get())
+            {
+                extensionMotor.set(speed);
+            }
+            else
+            {
+                stopStage();
+            }
+        }
+        else
+        {
+            //System.out.println(!extensionBottomLimit.get());
+            if (!extensionBottomLimit.get())
+            {
+                extensionMotor.set(speed);
+            }
+            else
+            {
+                stopStage();
+            }
+        }
+    }
     public void stopPlat()
     {
-        if (!platformBottomLimit.get())
-        {
-            platformMotor.set(0.15);
-        }
-        else
-        {
-            platformMotor.set(0);
-        }
-
+        platLast = (Double.isNaN(platLast))?getPlatEncoder():platLast;
+        movePlatNoReset(scale*platPID.pidCalculate(platLast, getPlatEncoder()));
     }
-
     public void stopStage()
     {
-        if (!extensionBottomLimit.get())
-        {
-            extensionMotor.set(0);// -0.15);
-        }
-        else
-        {
-            extensionMotor.set(0);
-        }
-
+        stageLast = (Double.isNaN(stageLast))?getStageEncoder():stageLast;
+        moveStageNoReset(-scale*stagePID.pidCalculate(stageLast, getStageEncoder()));
     }
-
-    public void move(direction dir, boolean both, double speed)
+    public void move(direction dir, double speed)
     {
-        switch (dir)
-        {
-            case UP:
-                if (both)
-                {
-                    if (!platformTopLimit.get())
-                    {
-                        platformMotor.set(speed);
-                    }
-                    else
-                    {
-                        stopPlat();
-                    }
-                    if (!extensionTopLimit.get())
-                    {
-                        extensionMotor.set(-speed);
-                    }
-                    else
-                    {
-                        stopStage();
-                    }
-                }
-                else
-                {
-                    if (!extensionTopLimit.get())
-                    {
-                        if (platformTopLimit.get())
-                        {
-                            extensionMotor.set(-speed);
-                            platformMotor.set(0);
-                        }
-                        else
-                        {
-                            platformMotor.set(speed);
-                            extensionMotor.set(0);
-                        }
-                    }
-                    else
-                    {
-                        stop();
-                    }
-                }
-                break;
-            case DOWN:
-                if (both)
-                {
-                    if (!platformBottomLimit.get())
-                    {
-                        platformMotor.set(speed);
-                    }
-                    else
-                    {
-                        stopPlat();
-                    }
-                    if (!extensionBottomLimit.get())
-                    {
-                        extensionMotor.set(-speed);
-                    }
-                    else
-                    {
-                        stopStage();
-                    }
-                }
-                else
-                {
-                    if (!platformBottomLimit.get())
-                    {
-                        if (extensionBottomLimit.get())
-                        {
-                            platformMotor.set(speed);
-                            extensionMotor.set(0);
-                        }
-                        else
-                        {
-                            extensionMotor.set(-speed);
-                            platformMotor.set(0);
-                        }
-                    }
-                    else
-                    {
-                        stop();
-                    }
-                }
-                break;
+       switch (dir)
+       {
+           case UP:
+               if (getPlatEncoder() >= PLATTOP - 0.25)
+               {
+
+                   platLast = (Double.isNaN(platLast))?getPlatEncoder():platLast;
+                   moveStage(-scale*stagePID.pidCalculate(STAGETOP, getStageEncoder()));
+                   stageLast = Double.NaN;
+                   movePlat(scale*platTopPID.pidCalculate(PLATTOP, getPlatEncoder()));
+                   //System.out.println(-scale*stagePID.pidCalculate(STAGETOP, getStageEncoder()));
+               }
+               else
+               {
+                   stageLast = (Double.isNaN(stageLast))?getStageEncoder():stageLast;
+                   movePlat(scale*platPID.pidCalculate(PLATTOP, getPlatEncoder()));
+                   platLast = Double.NaN;
+                   //moveStage(-scale*platPID.pidCalculate(stageLast, getStageEncoder()));
+                   //System.out.println(stageLast);
+               }
+               break;
+           case DOWN:
+               if (getStageEncoder() > 0.25)
+               {
+                   platLast = (Double.isNaN(platLast))?getPlatEncoder():platLast;
+                   moveStage(-scale*stageDownPID.pidCalculate(0, getStageEncoder()));
+                   stageLast = Double.NaN;
+                   movePlat(scale*platPID.pidCalculate(platLast, getPlatEncoder()));
+               }
+               else
+               {
+                   stageLast = (Double.isNaN(stageLast))?getStageEncoder():stageLast;
+                   movePlat(scale*platDownPID.pidCalculate(0, getPlatEncoder()));
+                   platLast = Double.NaN;
+                   moveStage(-scale*stagePID.pidCalculate(0, getStageEncoder()));
+               }
+               break;
         }
     }
-
     public void stop()
     {
-        // System.out.println("moving plat down");
-        stopPlat();
-        stopStage();
+        stageLast = (Double.isNaN(stageLast))?getStageEncoder():stageLast;
+        platLast = (Double.isNaN(platLast))?getPlatEncoder():platLast;
+        moveStageNoReset(-scale*stagePID.pidCalculate(stageLast, getStageEncoder()));
+        movePlatNoReset(scale*platPID.pidCalculate(platLast, getPlatEncoder()));
     }
-
     public double getEncoder(quad encoder)
     {
         double retVal = 0;
@@ -305,7 +257,6 @@ public class Lift extends Subsystem
         }
         return retVal;
     }
-
     public double getPlatEncoder()
     {
         return platformQuad.getDistance();
@@ -315,12 +266,46 @@ public class Lift extends Subsystem
     {
         return extensionQuad.getDistance();
     }
-
+    /**
+     * @return the extensionTopLimit
+     */
+    public boolean getExtensionTopLimit()
+    {
+        return extensionTopLimit.get();
+    }
+    /**
+     * @return the extensionBottomLimit
+     */
+    public boolean getExtensionBottomLimit()
+    {
+        return extensionBottomLimit.get();
+    }
+    /**
+     * @return the platformTopLimit
+     */
+    public boolean getPlatformTopLimit()
+    {
+        return platformTopLimit.get();
+    }
+    /**
+     * @return the platformBottomLimit
+     */
+    public boolean getPlatformBottomLimit()
+    {
+        return platformBottomLimit.get();
+    }
     public String debugPrint()
     {
-        return "Platform Encoder: " + getPlatEncoder() + "\nStage Encoder: " + getStageEncoder();
+        return "Platform Encoder: "+getPlatEncoder() + "\nStage Encoder: "+getStageEncoder();
     }
-
+    public void resetPlatEncoder()
+    {
+        platformQuad.reset();
+    }
+    public void resetStageEncoder()
+    {
+        extensionQuad.reset();
+    }
     @Override
     public void periodic()
     {
