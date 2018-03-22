@@ -38,27 +38,27 @@ public class Ellipse
         this.targetAngle = targetAngle;
         this.tolerance = tolerance;
         quadrant = 1;
-        slewCut = true;
+        slewCut = false;
         drivePID = new PID(0.028, 0.1, 0.000005, 10, 10, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
-        slewRate = new SlewRate(0.8);
+        slewRate = new SlewRate(1.2);
         firstIteration = true;
     }
 
     public Ellipse(double a, double b, int direction, int target, double targetAngle, int tolerance, double time, boolean slew)
     {
-    	this.direction = direction;
-        this.a = a;
+    	this.a = a;
         this.b = b;
+        this.direction = direction;
         this.target = target;
         this.time = time;
         this.targetAngle = targetAngle;
-        this.slewCut = slew;
         this.tolerance = tolerance;
         quadrant = 1;
+        slewCut = !slew;
         drivePID = new PID(0.028, 0.1, 0.000005, 10, 10, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
-        slewRate = new SlewRate(0.8);
+        slewRate = new SlewRate(1.2);
         firstIteration = true;
     }
 
@@ -85,6 +85,9 @@ public class Ellipse
         
         double x = xEllipseCalculate(encoder);
         double angle = direction*angleEllipseCalculate(x);
+        
+        System.out.println("X: "+ x);
+        System.out.println("Angle: "+ angle);
         
         leftPower = drivePower - gyroDrivePID.pidCalculate(targetAngle + angle, Robot.drive.getAngle());
         leftPower = ((leftPower > 0) ? 1 : -1) * Math.min(1, Math.abs(leftPower));
@@ -134,8 +137,8 @@ public class Ellipse
         double sum = 0;
         double curX = 0;
         double calcSlice = 0;
-        double deltaX = 0.001;
-        while (Math.abs(sum - distance) > 0.001)
+        double deltaX = 0.05;
+        while (Math.abs(sum - distance) > 0.05)
         {
             // System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
             calcSlice = Math.sqrt(1 + Math.pow(-curX / (tempA * Math.sqrt(tempA * tempA - curX * curX)), 2)) * deltaX;
@@ -160,6 +163,7 @@ public class Ellipse
 
     public double angleEllipseCalculate(double x)
     {
+    	/*
         x = Math.abs(x);
         double slope = -x / (a*Math.sqrt(a*a - x * x));
         double angle = Math.toDegrees(Math.atan(slope)); // ((quadrant==1||quadrant==3)? 1:-1)
@@ -168,5 +172,12 @@ public class Ellipse
             angle = ((angle >= 0) ? 1 : -1) * (180 - Math.abs(angle));
         }
         return angle;
+        */
+    	double tempB = b / a;
+		double tempX = x / a;
+		double tempA = 1;
+		double slope = -tempX/(tempA*Math.sqrt(tempA*tempA-tempX*tempX));
+		double angle = Math.toDegrees(Math.atan(slope));
+		return angle;
     }
 }

@@ -23,21 +23,21 @@ public class DriveTarget
     private int repsAtTarget;
     private int tolerance;
     private boolean firstIteration;
-    
-    public DriveTarget(int target, double targetAngle, int tolerance, double time) 
+
+    public DriveTarget(int target, double targetAngle, int tolerance, double time)
     {
         this.target = target;
         this.time = time;
         this.targetAngle = targetAngle;
         this.tolerance = tolerance;
-        slewCut = true;
+        slewCut = false;
         drivePID = new PID(0.028, 0.1, 0.000005, 10, 10, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
         slewRate = new SlewRate(0.8);
         firstIteration = true;
     }
-    
-    public DriveTarget(int target, double targetAngle, int tolerance, double time, boolean slew) 
+
+    public DriveTarget(int target, double targetAngle, int tolerance, double time, boolean slew)
     {
         this.target = target;
         this.time = time;
@@ -47,14 +47,15 @@ public class DriveTarget
         drivePID = new PID(0.028, 0.1, 0.000005, 10, 10, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
         slewRate = new SlewRate(0.5);
+        slewCut = false;
         firstIteration = true;
     }
-    
+
     public boolean execute() {
-        
+
         if (firstIteration) {
             startTime = Timer.getFPGATimestamp();
-            slewRate.reinit();
+            slewRate = new SlewRate(1.6);
             firstIteration = false;
             System.out.println("New Motion");
         }
@@ -64,6 +65,7 @@ public class DriveTarget
         encoder = (Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
         System.out.println("Encoder: " + encoder);
         drivePower = drivePID.pidCalculate(target, encoder);
+        
         if(!slewCut) {
             drivePower = slewRate.rateCalculate(drivePower);
         }

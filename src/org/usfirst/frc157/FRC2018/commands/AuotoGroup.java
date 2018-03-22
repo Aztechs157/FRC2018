@@ -99,6 +99,12 @@ public class AuotoGroup extends CommandGroup
             case mode7:
                 addSequential(new CrossLineWithSensors());
                 break;
+            case mode8:
+            	  if (gameData.charAt(0) == 'L')
+                      addSequential(new ArcingCenterSwitch(true));
+                  else
+                     addSequential(new ArcingCenterSwitch(false));
+                  break;
             default:
                 addSequential(new AutonMode0());
                 break;

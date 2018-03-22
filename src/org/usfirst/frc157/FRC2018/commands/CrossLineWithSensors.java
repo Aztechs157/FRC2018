@@ -45,7 +45,7 @@ public class CrossLineWithSensors extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        if (forward1.execute()) {    
+        if (forward1.execute()) {
             autonFinished = true;
             reset();
             System.out.println("CrossLineWithSensors:execute():broken 1");
