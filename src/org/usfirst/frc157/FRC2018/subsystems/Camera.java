@@ -2,8 +2,8 @@
 package org.usfirst.frc157.FRC2018.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import org.usfirst.frc157.FRC2018.commands.CameraController;
-import org.usfirst.frc157.FRC2018.commands.GrabberWithTriggers;
+//import org.usfirst.frc157.FRC2018.commands.CameraController;
+//import org.usfirst.frc157.FRC2018.commands.GrabberWithTriggers;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -25,7 +25,7 @@ public class Camera extends Subsystem {
             cam0.setFPS(12);
             cam0.setBrightness(25);
             if(!cam0.isConnected()) System.err.println("CAMERA IS NOT PLUGGED IN!");
-            setDefaultCommand(new CameraController());
+            //setDefaultCommand(new CameraController());
     }
     /**
      * execute() is to be used to add filters on the camera
