@@ -79,7 +79,7 @@ public class Lift extends Subsystem
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
-
+    
     public void movePlat(double speed)
     {
         platLast = Double.NaN;
@@ -158,6 +158,17 @@ public class Lift extends Subsystem
             }
         }
     }
+    
+    public void setStage(double speed)
+    {
+        extensionMotor.set(speed);
+    }
+    
+    public void setPlat(double speed)
+    {
+        platformMotor.set(speed);
+    }
+    
     public void moveStage(double speed)
     {
         stageLast = Double.NaN;
