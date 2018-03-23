@@ -178,6 +178,10 @@ public class Ellipse
 		double tempA = 1;
 		double slope = -tempX/(tempA*Math.sqrt(tempA*tempA-tempX*tempX));
 		double angle = Math.toDegrees(Math.atan(slope));
+		if (quadrant == 2)
+        {
+            angle = ((angle >= 0) ? 1 : -1) * (180 - Math.abs(angle));
+        }
 		return angle;
     }
 }

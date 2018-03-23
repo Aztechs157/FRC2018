@@ -40,10 +40,10 @@ public class SameSideScale extends Command
         this.left = (left) ? 1 : -1;
         platTarget = 35;
         elevatorTarget = 35;
-        forward1 = new DriveTarget(230, 0, 3, 5);
-        turn1 = new GyroTurn(this.left * 30, 3, 3, 0.4);
-        forward2 = new DriveTarget(40, this.left * 30, 3, 3);
-        back1 = new DriveTarget(-50, this.left*30, 3, 8);
+        forward1 = new DriveTarget(240, 0, 3, 5);
+        turn1 = new GyroTurn(this.left * 45, 3, 3, 0.4);
+        forward2 = new DriveTarget(30, this.left * 45, 3, 3);
+        back1 = new DriveTarget(-50, this.left*45, 3, 8);
         waitReps = 0;
     }
 

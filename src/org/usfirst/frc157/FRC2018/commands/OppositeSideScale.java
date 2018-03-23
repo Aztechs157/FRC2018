@@ -45,10 +45,10 @@ public class OppositeSideScale extends Command
         platTarget = 30;
         forward1 = new DriveTarget(204, 0, 3, 5);
         turn1 = new GyroTurn(this.left * 90, 2, 3, 0.4);
-        forward2 = new DriveTarget(162, this.left * 90, 3, 5);
+        forward2 = new DriveTarget(195, this.left * 90, 3, 5);
         turn2 = new GyroTurn(0, 2, 3, 0.4);
-        forward3 = new DriveTarget(25, 0, 3, 2);
-        back1 = new DriveTarget(-40, 0, 3, 3);
+        forward3 = new DriveTarget(55, 0, 3, 2);
+        back1 = new DriveTarget(-55, 0, 3, 3);
         waitReps = 0;
     }
 

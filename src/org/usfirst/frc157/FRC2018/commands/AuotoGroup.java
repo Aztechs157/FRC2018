@@ -105,6 +105,18 @@ public class AuotoGroup extends CommandGroup
                   else
                      addSequential(new ArcingCenterSwitch(false));
                   break;
+            case mode9: // lining up left side, going for scale for 2 cubes
+                if (gameData.charAt(1) == 'L')
+                    addSequential(new SameSideScale2Cube(true));
+                else
+                    addSequential(new OppositeSideScale(true));
+                break;
+            case mode10: // lining up right side, going for scale for 2 cubes
+                if (gameData.charAt(1) == 'R')
+                    addSequential(new SameSideScale2Cube(false));
+                else
+                    addSequential(new OppositeSideScale(false));
+                break;
             default:
                 addSequential(new AutonMode0());
                 break;
