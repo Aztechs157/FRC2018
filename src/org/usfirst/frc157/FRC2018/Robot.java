@@ -88,6 +88,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        RobotMap.driveGyro.reset();
         if ((DriverStation.getInstance().getGameSpecificMessage().length() != 0))
         {
             chooser.addDefault("AuotoGroup", new AuotoGroup());
