@@ -86,8 +86,8 @@ public class Ellipse
         double x = xEllipseCalculate(encoder);
         double angle = direction*angleEllipseCalculate(x);
         
-        System.out.println("X: "+ x);
-        System.out.println("Angle: "+ angle);
+        //System.out.println("X: "+ x);
+        //System.out.println("Angle: "+ angle);
         
         leftPower = drivePower - gyroDrivePID.pidCalculate(targetAngle + angle, Robot.drive.getAngle());
         leftPower = ((leftPower > 0) ? 1 : -1) * Math.min(1, Math.abs(leftPower));
@@ -123,13 +123,13 @@ public class Ellipse
     {
         double semiperimeter = Math.PI * Math.sqrt((a * a + b * b) / 2) / 2.0;
         quadrant = (int) (distance / semiperimeter) + 1;
-        System.out.println(quadrant);
+        //System.out.println(quadrant);
         distance = distance - ((quadrant - 1) * semiperimeter);
         if (quadrant == 2 || quadrant == 4)
         {
             distance = semiperimeter - distance;
         }
-        System.out.println(distance);
+        //System.out.println(distance);
         double origA = a;
         double tempB = b / a;
         distance = distance / a;

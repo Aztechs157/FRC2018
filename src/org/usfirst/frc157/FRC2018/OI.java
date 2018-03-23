@@ -155,7 +155,7 @@ public class OI {
         //AttackSwap = new JoystickButton(attackL, 6);
         //AttackSwap.whenPressed(new AtkSwap());
         // SmartDashboard Buttons
-        SmartDashboard.putData("AuotoGroup", new AuotoGroup());
+        //SmartDashboard.putData("AuotoGroup", new AuotoGroup());
         SmartDashboard.putData("DriveWithSticks", new DriveWithSticks());
         SmartDashboard.putData("MoveLiftToPos1", new MoveLiftToPos(0));
         SmartDashboard.putData("MoveLiftToPos2", new MoveLiftToPos(1));
