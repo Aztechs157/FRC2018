@@ -46,10 +46,10 @@ public class ArcingCenterSwitch extends Command
         this.left = (left)? 1: -1;
         platTarget = 30;
         
-        target1 = (int)(Math.PI*Math.sqrt((Math.pow(44, 2)+Math.pow(((this.left == 1)? 24: 34)/2, 2))/2)/2);
-        arc1 = new Ellipse(44, ((this.left == 1)? 24: 34)/2, this.left, 2*target1, 0, 3, 5);
-        target2 = (int)(Math.PI*Math.sqrt((Math.pow(62, 2)+Math.pow(((this.left == 1)? 24: 34)/2, 2))/2)/2);
-        arc2 = new Ellipse(((this.left == 1)? 24: 34)/2,  62, -this.left, target2, (this.left*-90), 3, 5, false);
+        target1 = (int)(Math.PI*Math.sqrt((Math.pow(44, 2)+Math.pow(((this.left == 1)? 24: 14)/2, 2))/2)/2);
+        arc1 = new Ellipse(44, ((this.left == 1)? 24: 14)/2, this.left, 2*target1, 0, 3, 5);
+        target2 = (int)(Math.PI*Math.sqrt((Math.pow(62, 2)+Math.pow(((this.left == 1)? 24: 14)/2, 2))/2)/2);
+        arc2 = new Ellipse(((this.left == 1)? 24: 14)/2,  62, -this.left, target2, (this.left*-90), 3, 5, false);
         
         turn1 = new GyroTurn(0, 2, 2, 0.4);
         int target3 = -(int)(Math.PI*Math.sqrt((Math.pow(60, 2)+Math.pow(91, 2))/2)/2);
@@ -58,8 +58,8 @@ public class ArcingCenterSwitch extends Command
         forward1 = new DriveTarget(40, 0, 3, 3);
         back1 = new DriveTarget(-40, 0, 3, 3);
         turn3 = new GyroTurn(this.left*-90, 2, 1, 0.4);
-        int target4 = (int)(Math.PI*Math.sqrt((Math.pow(65, 2)+Math.pow(40, 2))/2)/2);
-        arc4 = new Ellipse(34, 120, -this.left, target4, this.left*-90, 3, 5);
+        int target4 = (int)(Math.PI*Math.sqrt((Math.pow(90, 2)+Math.pow(40, 2))/2)/2);
+        arc4 = new Ellipse(50, 150, -this.left, target4, this.left*-90, 3, 5);
         turn4 = new GyroTurn(0, 2, 2, 0.4);
     }
 
