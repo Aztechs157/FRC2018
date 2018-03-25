@@ -89,7 +89,10 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         RobotMap.driveGyro.reset();
-        if ((DriverStation.getInstance().getGameSpecificMessage().length() != 0))
+        drive.resetLeftEncoder();
+        drive.resetRightEncoder();
+        if (DriverStation.getInstance().getGameSpecificMessage() != null &&
+                (DriverStation.getInstance().getGameSpecificMessage().length() != 0))
         {
             chooser.addDefault("AuotoGroup", new AuotoGroup());
             autonomousCommand = chooser.getSelected();
@@ -103,7 +106,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
-        if (autonomousCommand == null && DriverStation.getInstance().getGameSpecificMessage().length() != 0)
+        if (autonomousCommand == null &&
+                DriverStation.getInstance().getGameSpecificMessage() != null &&
+                DriverStation.getInstance().getGameSpecificMessage().length() != 0)
         {
             chooser.addDefault("AuotoGroup", new AuotoGroup());
             autonomousCommand = chooser.getSelected();

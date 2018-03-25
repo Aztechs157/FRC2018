@@ -64,7 +64,8 @@ public class AuotoGroup extends CommandGroup
                 addSequential(new AutonMode0());
                 break;
             case mode1: // cross the auto line
-                addSequential(new AutonMode1());
+                //addSequential(new AutonMode1());
+                addSequential(new AutonMode0());
                 break;
             case mode2: // lining up middle, going for switch
                 if (gameData.charAt(0) == 'L')
@@ -76,25 +77,43 @@ public class AuotoGroup extends CommandGroup
                 if (gameData.charAt(0) == 'L')
                     addSequential(new SameSideSwitch(true));
                 else
-                    addSequential(new  OppositeSideSwitch(true));
+                    //addSequential(new  OppositeSideSwitch(true));
+                    addSequential(new CrossLineWithSensors());
                 break;
             case mode4: // lining up left side, going for scale
                 if (gameData.charAt(1) == 'L')
                     addSequential(new SameSideScale(true));
-                else
-                   addSequential(new OppositeSideScale(true));
+                else {
+                   //addSequential(new OppositeSideScale(true));
+                   if (gameData.charAt(0)=='L') {
+                       addSequential(new SameSideSwitch(true));
+                   }
+                   else {
+                       //addSequential(new CrossLineWithSensors());
+                       addSequential(new OppositeSideSwitch(true));
+                   }
+                }
                 break;
             case mode5: // lining up right side, going for switch
                 if (gameData.charAt(0) == 'R')
                     addSequential(new SameSideSwitch(false));
                 else
-                    addSequential(new OppositeSideSwitch(false));
+                    //addSequential(new OppositeSideSwitch(false));
+                    addSequential(new CrossLineWithSensors());
                 break;
             case mode6: // lining up right side, going for scale
                 if (gameData.charAt(1) == 'R')
                     addSequential(new SameSideScale(false));
-                else
-                    addSequential(new OppositeSideScale(false));
+                else {
+                    //addSequential(new OppositeSideScale(true));
+                    if (gameData.charAt(0)=='R') {
+                        addSequential(new SameSideSwitch(false));
+                    }
+                    else {
+                        //addSequential(new CrossLineWithSensors());
+                        addSequential(new OppositeSideSwitch(false));
+                    }
+                 }
                 break;
             case mode7:
                 addSequential(new CrossLineWithSensors());
@@ -116,6 +135,19 @@ public class AuotoGroup extends CommandGroup
                     addSequential(new SameSideScale2Cube(false));
                 else
                     addSequential(new OppositeSideScale(false));
+                break;
+            case mode11: // auton for testing purposes only
+                if (gameData.charAt(1) == 'R')
+                    addSequential(new SameSideScale(false));
+                else {
+                    //addSequential(new OppositeSideScale(true));
+                    if (gameData.charAt(0)=='L') {
+                        addSequential(new OppositeSideSwitch(false));
+                    }
+                    else {
+                        addSequential(new CrossLineWithSensors());
+                    }
+                 }
                 break;
             default:
                 addSequential(new AutonMode0());

@@ -40,6 +40,8 @@ public class CenterSwitchAuton extends Command
     {
         //middle auton
         requires(Robot.drive);
+        requires(Robot.grabber);
+        requires(Robot.lift);
         state = autonState.forward1;
         platPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
         System.out.println("Middle Switch got instantiated");
@@ -50,7 +52,7 @@ public class CenterSwitchAuton extends Command
         turn1 = new GyroTurn(this.left*-90, 3, 3, 0.4);
         forward2 = new DriveTarget(((this.left == 1)? 54: 44), this.left*-90, 3, 3);
         turn2 = new GyroTurn(0, 3, 3, 0.4);
-        forward3 = new DriveTarget(51, 0, 3, 3);
+        forward3 = new DriveTarget(58, 0, 3, 3);
         back1 = new DriveTarget(-51, 0, 3, 3);
         turn3 = new GyroTurn(this.left*90, 3, 3, 0.4);
         forward4 = new DriveTarget(((this.left == 1)? 54: 44), this.left*90, 3, 3);
@@ -99,17 +101,19 @@ public class CenterSwitchAuton extends Command
             case forward3:
                 lift();
                 if (forward3.execute()) {
-                    Robot.grabber.move(1);
+                    Robot.grabber.move(-1);
                     state = autonState.back1;
+                   //autonFinished = true;
                     reset();
                 }
                 break;
             case back1:
                 lift();
                 if (back1.execute()) {
-                    Robot.grabber.move(-1);
+                    //Robot.grabber.move(-1);
                     state = autonState.turn3;
-                    platTarget = 0;
+                    autonFinished = true;
+                   // platTarget = 0;
                     reset();
                 }
                 break;
@@ -191,6 +195,19 @@ public class CenterSwitchAuton extends Command
         // TODO Auto-generated method stub
         return autonFinished;
     }
+
+    @Override
+    protected void end()
+    {
+        Robot.lift.hold();
+    }
+
+    @Override
+    protected void interrupted()
+    {
+        Robot.lift.hold();
+    }
+
     public void reset() {
         Robot.drive.AutoDrive(0,0);
         Robot.drive.resetLeftEncoder();

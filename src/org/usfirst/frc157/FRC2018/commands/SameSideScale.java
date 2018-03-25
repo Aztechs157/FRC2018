@@ -3,6 +3,7 @@ package org.usfirst.frc157.FRC2018.commands;
 
 import org.usfirst.frc157.FRC2018.PID;
 import org.usfirst.frc157.FRC2018.Robot;
+import org.usfirst.frc157.FRC2018.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -33,6 +34,8 @@ public class SameSideScale extends Command
     {
         // same side scale
         requires(Robot.drive);
+        requires(Robot.grabber);
+        requires(Robot.lift);
         state = autonState.forward1;
         platPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
         elevatorPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
@@ -40,8 +43,8 @@ public class SameSideScale extends Command
         this.left = (left) ? 1 : -1;
         platTarget = 35;
         elevatorTarget = 35;
-        forward1 = new DriveTarget(240, 0, 3, 5);
-        turn1 = new GyroTurn(this.left * 45, 3, 3, 0.4);
+        forward1 = new DriveTarget(243, 0, 3, 5);
+        turn1 = new GyroTurn(this.left * 80, 3, 3, 0.4);
         forward2 = new DriveTarget(30, this.left * 45, 3, 3);
         back1 = new DriveTarget(-50, this.left*45, 3, 8);
         waitReps = 0;
@@ -65,7 +68,8 @@ public class SameSideScale extends Command
                 if (turn1.execute())
                 {
                     reset();
-                    state = autonState.forward2;
+                    Robot.grabber.move(-1);
+                    state = autonState.wait1;
                 }
                 break;
             case forward2:
@@ -73,7 +77,6 @@ public class SameSideScale extends Command
                 if (forward2.execute())
                 {
                     reset();
-                    Robot.grabber.move(1);
                     state = autonState.wait1;
                 }
                 break;
@@ -90,10 +93,11 @@ public class SameSideScale extends Command
                 moveLift();
                 if (waitReps>30) {
                     reset();
-                    Robot.grabber.move(1);
+                    Robot.grabber.move(-1);
                     state = autonState.back1;
-                    platTarget = 0;
-                    elevatorTarget = 0;
+                    autonFinished = true;
+//                    platTarget = 0;
+//                    elevatorTarget = 0;
                     waitReps = 0;
                 }
                 else {
@@ -115,6 +119,17 @@ public class SameSideScale extends Command
         return autonFinished;
     }
 
+    @Override
+    protected void end()
+    {
+        Robot.lift.hold();
+    }
+
+    @Override
+    protected void interrupted()
+    {
+        Robot.lift.hold();
+    }
     public void reset()
     {
         Robot.drive.AutoDrive(0, 0);

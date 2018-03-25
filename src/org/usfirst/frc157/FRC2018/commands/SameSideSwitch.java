@@ -11,7 +11,7 @@ public class SameSideSwitch extends Command
     // same side switch
     public enum autonState
     {
-        forward1, turn1, forward2;
+        forward1, turn1, forward2, back1;
     }
 
     private autonState state;
@@ -23,11 +23,14 @@ public class SameSideSwitch extends Command
     private DriveTarget forward1;
     private GyroTurn turn1;
     private DriveTarget forward2;
+    private DriveTarget back1;
 
     public SameSideSwitch(boolean left)
     {
         // same side switch
         requires(Robot.drive);
+        requires(Robot.grabber);
+        requires(Robot.lift);
         autonFinished = false;
         state = autonState.forward1;
         platPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
@@ -36,7 +39,8 @@ public class SameSideSwitch extends Command
         platTarget = 30;
         forward1 = new DriveTarget(130, 0, 3, 4);
         turn1 = new GyroTurn(this.left*90, 3, 3, 0.4);
-        forward2 = new DriveTarget(30, this.left*90, 3, 4);
+        forward2 = new DriveTarget(25, this.left*90, 3, 3);
+        back1 = new DriveTarget(-20, this.left*90, 3, 4);
     }
 
     @Override
@@ -64,7 +68,15 @@ public class SameSideSwitch extends Command
                 platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
                 Robot.lift.movePlat(platPower);
                 if (forward2.execute()) {
-                     Robot.grabber.move(1);
+                     Robot.grabber.move(-1);
+                     state = autonState.back1;
+                   //  autonFinished = true;
+                 }
+                break;
+            case back1:
+                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
+                Robot.lift.movePlat(platPower);
+                if (back1.execute()) {
                      autonFinished = true;
                  }
                 break;

@@ -36,6 +36,8 @@ public class OppositeSideScale extends Command
     {
         // opposite side switch
         requires(Robot.drive);
+        requires(Robot.grabber);
+        requires(Robot.lift);
         state = autonState.forward1;
         platPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
         elevatorPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
@@ -47,8 +49,8 @@ public class OppositeSideScale extends Command
         turn1 = new GyroTurn(this.left * 90, 2, 3, 0.4);
         forward2 = new DriveTarget(195, this.left * 90, 3, 5);
         turn2 = new GyroTurn(0, 2, 3, 0.4);
-        forward3 = new DriveTarget(55, 0, 3, 2);
-        back1 = new DriveTarget(-55, 0, 3, 3);
+        forward3 = new DriveTarget(20, 0, 3, 2);
+        back1 = new DriveTarget(-20, 0, 3, 3);
         waitReps = 0;
     }
 
@@ -95,7 +97,7 @@ public class OppositeSideScale extends Command
                 if (forward3.execute())
                 {
                     reset();
-                    Robot.grabber.move(1);
+                    Robot.grabber.move(-1);
                     state = autonState.wait1;
                 }
                 break;
@@ -112,9 +114,9 @@ public class OppositeSideScale extends Command
                 moveLift();
                 if (waitReps>30) {
                     reset();
-                    Robot.grabber.move(1);
-                    elevatorTarget = 0;
-                    platTarget = 0;
+                    Robot.grabber.move(-1);
+//                    elevatorTarget = 0;
+//                    platTarget = 0;
                     state = autonState.back1;
                     waitReps = 0;
                 }

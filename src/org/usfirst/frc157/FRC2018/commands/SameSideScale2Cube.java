@@ -38,6 +38,8 @@ public class SameSideScale2Cube extends Command
     {
         // same side scale
         requires(Robot.drive);
+        requires(Robot.grabber);
+        requires(Robot.lift);
         state = autonState.forward1;
         platPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
         elevatorPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
@@ -45,9 +47,9 @@ public class SameSideScale2Cube extends Command
         this.left = (left) ? 1 : -1;
         platTarget = 35;
         elevatorTarget = 35;
-        forward1 = new DriveTarget(240, 0, 3, 5);
+        forward1 = new DriveTarget(240, 0, 3, 10);
         turn1 = new GyroTurn(this.left * 45, 3, 3, 0.4);
-        forward2 = new DriveTarget(30, this.left * 45, 3, 3);
+        forward2 = new DriveTarget(8, this.left * 45, 3, 3);
         back1 = new DriveTarget(-90, this.left*45, 3, 8);
         
         arc1 = new Ellipse(20, 40, -this.left, 100, this.left * 45, 3, 5);
@@ -86,8 +88,9 @@ public class SameSideScale2Cube extends Command
                 if (forward2.execute())
                 {
                     reset();
-                    Robot.grabber.move(1);
-                    state = autonState.wait1;
+                    Robot.grabber.move(-1);
+                    autonFinished = true;
+                   //state = autonState.wait1;
                 }
                 break;
             case wait1:
@@ -168,6 +171,18 @@ public class SameSideScale2Cube extends Command
     {
         // TODO Auto-generated method stub
         return autonFinished;
+    }
+
+    @Override
+    protected void end()
+    {
+        Robot.lift.hold();
+    }
+
+    @Override
+    protected void interrupted()
+    {
+        Robot.lift.hold();
     }
 
     public void reset()
