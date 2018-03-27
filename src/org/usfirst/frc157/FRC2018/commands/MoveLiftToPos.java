@@ -142,7 +142,7 @@ public class MoveLiftToPos extends Command {
             SmartDashboard.putBoolean("test", true);
             if (Robot.lift.getPlatEncoder() < posPlatInterm)
             {
-                Robot.lift.movePlat(Robot.lift.platPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
+                Robot.lift.movePlat(Robot.lift.platUpPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
             }
             else
             {
@@ -154,7 +154,7 @@ public class MoveLiftToPos extends Command {
         {
             if (Robot.lift.getPlatEncoder() < posPlatFinal)
             {
-                Robot.lift.movePlat(Robot.lift.platPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
+                Robot.lift.movePlat(Robot.lift.platUpPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
             }
             else if (Robot.lift.getPlatEncoder() > posPlatFinal)
             {
@@ -168,7 +168,7 @@ public class MoveLiftToPos extends Command {
             SmartDashboard.putBoolean("test4", Robot.lift.getStageEncoder() > posStageFinal - .5);
             if (Robot.lift.getStageEncoder() < posStageFinal - .5)
             {
-                Robot.lift.moveStage(-Robot.lift.stagePID.pidCalculate(posStageFinal, Robot.lift.getStageEncoder()));
+                Robot.lift.moveStage(-Robot.lift.stageUpPID.pidCalculate(posStageFinal, Robot.lift.getStageEncoder()));
             }
             else if (Robot.lift.getStageEncoder() > posStageFinal + .5)
             {
