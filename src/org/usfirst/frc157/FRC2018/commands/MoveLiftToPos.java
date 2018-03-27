@@ -158,7 +158,7 @@ public class MoveLiftToPos extends Command {
             }
             else if (Robot.lift.getPlatEncoder() > posPlatFinal)
             {
-                Robot.lift.movePlat(Robot.lift.platPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
+                Robot.lift.movePlat(Robot.lift.platDownPID.pidCalculate(posPlatFinal, Robot.lift.getPlatEncoder()));
             }
             else
             {
@@ -172,7 +172,7 @@ public class MoveLiftToPos extends Command {
             }
             else if (Robot.lift.getStageEncoder() > posStageFinal + .5)
             {
-                Robot.lift.moveStage(-Robot.lift.stagePID.pidCalculate(posStageFinal, Robot.lift.getStageEncoder()));
+                Robot.lift.moveStage(-Robot.lift.stageDownPID.pidCalculate(posStageFinal, Robot.lift.getStageEncoder()));
             }
             else
             {

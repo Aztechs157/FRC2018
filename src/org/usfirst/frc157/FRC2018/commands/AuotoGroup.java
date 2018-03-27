@@ -90,7 +90,7 @@ public class AuotoGroup extends CommandGroup
                    }
                    else {
                        //addSequential(new CrossLineWithSensors());
-                       addSequential(new OppositeSideSwitch(true));
+                       addSequential(new CrossLineWithSensors());
                    }
                 }
                 break;
@@ -111,7 +111,7 @@ public class AuotoGroup extends CommandGroup
                     }
                     else {
                         //addSequential(new CrossLineWithSensors());
-                        addSequential(new OppositeSideSwitch(false));
+                        addSequential(new CrossLineWithSensors());
                     }
                  }
                 break;
