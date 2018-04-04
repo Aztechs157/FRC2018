@@ -88,7 +88,11 @@ public class Drive extends Subsystem {
     }
     public double getAngle()
     {
-        return -gyro.getAngle();
+        double angle = -gyro.getAngle();
+//        if (Math.abs(angle)>180) {
+//            angle = ((angle>0)? -1: 1)*(360-Math.abs(angle));
+//        }
+        return angle;
     }
     public void DriveRobot()
     {

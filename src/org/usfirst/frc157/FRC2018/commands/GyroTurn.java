@@ -19,6 +19,7 @@ public class GyroTurn
     private int tolerance;
     private double scalar;
     private boolean firstIteration;
+    private int direction;
 
     public GyroTurn(int target, int tolerance, double time, double scalar)
     {
@@ -31,6 +32,7 @@ public class GyroTurn
         slewRate = new SlewRate(0.8);
         firstIteration = true;
         repsAtTarget = 0;
+        direction = 1;
     }
 
     public GyroTurn(int target, int tolerance, double time, double scalar, boolean slew)
@@ -45,6 +47,7 @@ public class GyroTurn
         gyroPID = new PID(0.04, 0, 0.000003, 9999999, 9999999, 9999999, 999999);
         firstIteration = true;
         repsAtTarget = 0;
+        direction = 1;
     }
 
     public boolean execute() {
@@ -53,9 +56,10 @@ public class GyroTurn
             startTime = Timer.getFPGATimestamp();
             slewRate.reinit();
             firstIteration = false;
+           // direction = ((Math.abs(Robot.drive.getAngle()-target)>180)? -1: 1);
         }
 
-        drivePower = gyroPID.pidCalculate(target, Robot.drive.getAngle())*scalar;
+        drivePower = direction*gyroPID.pidCalculate(target, Robot.drive.getAngle())*scalar;
 
         if(!slewCut) {
             drivePower = slewRate.rateCalculate(drivePower);

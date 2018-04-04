@@ -38,18 +38,19 @@ public class OppositeSideScale extends Command
         requires(Robot.drive);
         requires(Robot.grabber);
         requires(Robot.lift);
-        state = autonState.forward1;
+        //state = autonState.forward1;
+        state = autonState.turn1;
         platPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
         elevatorPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
         elevatorTarget = 0;
         System.out.println("Opposite Side Scale got called");
         this.left = (left) ? 1 : -1;
         platTarget = 30;
-        forward1 = new DriveTarget(204, 0, 3, 5);
+        forward1 = new DriveTarget(164, 0, 3, 5);
         turn1 = new GyroTurn(this.left * 90, 2, 3, 0.4);
-        forward2 = new DriveTarget(195, this.left * 90, 3, 5);
-        turn2 = new GyroTurn(0, 2, 3, 0.4);
-        forward3 = new DriveTarget(20, 0, 3, 2);
+        forward2 = new DriveTarget(144, this.left * 90, 3, 5);
+        turn2 = new GyroTurn(this.left*-30, 2, 3, 0.4);
+        forward3 = new DriveTarget(8, 0, 3, 2);
         back1 = new DriveTarget(-20, 0, 3, 3);
         waitReps = 0;
     }
@@ -117,7 +118,8 @@ public class OppositeSideScale extends Command
                     Robot.grabber.move(-1);
 //                    elevatorTarget = 0;
 //                    platTarget = 0;
-                    state = autonState.back1;
+                   // state = autonState.back1;
+                    autonFinished = true;
                     waitReps = 0;
                 }
                 else {

@@ -11,7 +11,7 @@ public class OppositeSideSwitch extends Command
     // opposite side switch
     public enum autonState
     {
-        forward1, turn1, forward2, turn2, forward3, back1;
+        forward1, turn1, forward2, turn2, forward3, turn3, forward4, back1;
     }
 
     private autonState state;
@@ -25,6 +25,8 @@ public class OppositeSideSwitch extends Command
     private DriveTarget forward2;
     private GyroTurn turn2;
     private DriveTarget forward3;
+    private GyroTurn turn3;
+    private DriveTarget forward4;
     private DriveTarget back1;
 
     public OppositeSideSwitch(boolean left)
@@ -38,12 +40,14 @@ public class OppositeSideSwitch extends Command
         System.out.println("Opposite Side Switch got called");
         this.left = (left) ? 1 : -1;
         platTarget = 35;
-        forward1 = new DriveTarget(164, 0, 3, 5);
+        forward1 = new DriveTarget(167, 0, 3, 5);
         turn1 = new GyroTurn(this.left * 90, 2, 3, 0.4);
-        forward2 = new DriveTarget(120, this.left * 90, 3, 5);
+        forward2 = new DriveTarget(152, this.left * 90, 3, 5);
         turn2 = new GyroTurn(this.left*180, 2, 3, 0.4);
-        forward3 = new DriveTarget(15, this.left*180, 3, 2);
-        back1 = new DriveTarget(-20, this.left*180, 3, 4);
+        forward3 = new DriveTarget(38, this.left*180, 3, 2);
+        turn3 = new GyroTurn(this.left*270, 2, 3, 0.4);
+        forward4 = new DriveTarget(25, this.left*270, 3, 2);
+        back1 = new DriveTarget(-25, this.left*270, 3, 4);
     }
 
     @Override
@@ -57,6 +61,7 @@ public class OppositeSideSwitch extends Command
                 if (forward1.execute()) {
                     reset();
                     state = autonState.turn1;
+ 
                 }
                 break;
             case turn1:
@@ -65,6 +70,8 @@ public class OppositeSideSwitch extends Command
                 if (turn1.execute()) {
                     reset();
                     state = autonState.forward2;
+
+
                 }
                 break;
             case forward2:
@@ -73,6 +80,8 @@ public class OppositeSideSwitch extends Command
                 if (forward2.execute()) {
                     reset();
                     state = autonState.turn2;
+
+
                 }
                 break;
             case turn2:
@@ -88,6 +97,22 @@ public class OppositeSideSwitch extends Command
                 Robot.lift.movePlat(platPower);
                 if (forward3.execute()) {
                     reset();
+                    state = autonState.turn3;
+                }
+                break;
+            case turn3:
+                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
+                Robot.lift.movePlat(platPower);
+                if (turn3.execute()) {
+                    reset();
+                    state = autonState.forward4;
+                }
+                break;
+            case forward4:
+                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
+                Robot.lift.movePlat(platPower);
+                if (forward4.execute()) {
+                    reset();
                     Robot.grabber.move(-1);
                     state = autonState.back1;
                 }
@@ -97,7 +122,7 @@ public class OppositeSideSwitch extends Command
                 Robot.lift.movePlat(platPower);
                 if (back1.execute()) {
                      autonFinished = true;
-                 }
+                }
                 break;
         }
     }

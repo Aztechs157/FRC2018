@@ -137,17 +137,19 @@ public class AuotoGroup extends CommandGroup
                     addSequential(new OppositeSideScale(false));
                 break;
             case mode11: // auton for testing purposes only
-                if (gameData.charAt(1) == 'R')
-                    addSequential(new SameSideScale(false));
-                else {
-                    //addSequential(new OppositeSideScale(true));
-                    if (gameData.charAt(0)=='L') {
-                        addSequential(new OppositeSideSwitch(false));
-                    }
-                    else {
-                        addSequential(new CrossLineWithSensors());
-                    }
-                 }
+//                if (gameData.charAt(1) == 'R')
+//                    addSequential(new SameSideScale(false));
+//                else {
+//                    //addSequential(new OppositeSideScale(true));
+//                    if (gameData.charAt(0)=='L') {
+//                        addSequential(new OppositeSideSwitch(false));
+//                    }
+//                    else {
+//                        addSequential(new CrossLineWithSensors());
+//                    }
+//                 }
+                //addSequential(new DriveForDistance());
+                addSequential(new OppositeSideSwitch(false));
                 break;
             default:
                 addSequential(new AutonMode0());
