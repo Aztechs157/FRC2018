@@ -11,7 +11,7 @@ public class OppositeSideSwitch extends Command
     // opposite side switch
     public enum autonState
     {
-        forward1, turn1, forward2, turn2, forward3, turn3, forward4, back1;
+        forward1, turn1, forward2, turn2, forward3, turn3, forward4, wait1, back1;
     }
 
     private autonState state;
@@ -28,6 +28,7 @@ public class OppositeSideSwitch extends Command
     private GyroTurn turn3;
     private DriveTarget forward4;
     private DriveTarget back1;
+    private int waitReps = 0;
 
     public OppositeSideSwitch(boolean left)
     {
@@ -40,14 +41,14 @@ public class OppositeSideSwitch extends Command
         System.out.println("Opposite Side Switch got called");
         this.left = (left) ? 1 : -1;
         platTarget = 35;
-        forward1 = new DriveTarget(167, 0, 3, 5);
+        forward1 = new DriveTarget(168, 0, 3, 5);
         turn1 = new GyroTurn(this.left * 90, 2, 3, 0.4);
-        forward2 = new DriveTarget(152, this.left * 90, 3, 5);
+        forward2 = new DriveTarget(179, this.left * 90, 3, 5);
         turn2 = new GyroTurn(this.left*180, 2, 3, 0.4);
-        forward3 = new DriveTarget(38, this.left*180, 3, 2);
+        forward3 = new DriveTarget(52, this.left*180, 3, 2);
         turn3 = new GyroTurn(this.left*270, 2, 3, 0.4);
-        forward4 = new DriveTarget(25, this.left*270, 3, 2);
-        back1 = new DriveTarget(-25, this.left*270, 3, 4);
+        forward4 = new DriveTarget(22, this.left*270, 3, 2);
+        back1 = new DriveTarget(-22, this.left*270, 3, 4);
     }
 
     @Override
@@ -114,7 +115,20 @@ public class OppositeSideSwitch extends Command
                 if (forward4.execute()) {
                     reset();
                     Robot.grabber.move(-1);
+                    state = autonState.wait1;
+                }
+                break;
+            case wait1:
+                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
+                Robot.lift.movePlat(platPower);
+                if (waitReps>50) {
+                    reset();
+                    Robot.grabber.move(-1);
                     state = autonState.back1;
+                    waitReps = 0;
+                }
+                else {
+                    waitReps++;
                 }
                 break;
             case back1:
