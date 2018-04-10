@@ -12,7 +12,7 @@ public class OppositeSideScale extends Command
     // opposite side switch
     public enum autonState
     {
-        forward1, turn1, forward2, turn2, forward3, wait1, back1;
+        forward1, turn1, forward2, turn2, forward3, turn3, wait1, back1;
     }
 
     private autonState state;
@@ -29,6 +29,7 @@ public class OppositeSideScale extends Command
     private DriveTarget forward2;
     private GyroTurn turn2;
     private DriveTarget forward3;
+    private GyroTurn turn3;
     private DriveTarget back1;
     private int waitReps;
 
@@ -39,18 +40,19 @@ public class OppositeSideScale extends Command
         requires(Robot.grabber);
         requires(Robot.lift);
         //state = autonState.forward1;
-        state = autonState.turn1;
+        state = autonState.forward1;
         platPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
         elevatorPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
         elevatorTarget = 0;
         System.out.println("Opposite Side Scale got called");
         this.left = (left) ? 1 : -1;
         platTarget = 30;
-        forward1 = new DriveTarget(164, 0, 3, 5);
+        forward1 = new DriveTarget(168, 0, 3, 5);
         turn1 = new GyroTurn(this.left * 90, 2, 3, 0.4);
-        forward2 = new DriveTarget(144, this.left * 90, 3, 5);
-        turn2 = new GyroTurn(this.left*-30, 2, 3, 0.4);
-        forward3 = new DriveTarget(8, 0, 3, 2);
+        forward2 = new DriveTarget(184, this.left * 90, 3, 5);
+        turn2 = new GyroTurn(0, 2, 3, 0.4);
+        forward3 = new DriveTarget(68, 0, 3, 2);
+        turn3 = new GyroTurn(this.left * -90, 2, 3, 0.4);
         back1 = new DriveTarget(-20, 0, 3, 3);
         waitReps = 0;
     }
@@ -99,6 +101,14 @@ public class OppositeSideScale extends Command
                 {
                     reset();
                     Robot.grabber.move(-1);
+                    state = autonState.turn3;
+                }
+                break;
+            case turn3:
+                moveLift();
+                if (turn3.execute())
+                {
+                    reset();
                     state = autonState.wait1;
                 }
                 break;

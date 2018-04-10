@@ -149,7 +149,7 @@ public class AuotoGroup extends CommandGroup
 //                    }
 //                 }
                 //addSequential(new DriveForDistance());
-                addSequential(new OppositeSideSwitch(false));
+                addSequential(new OppositeSideScale(false));
                 break;
             default:
                 addSequential(new AutonMode0());
