@@ -37,12 +37,8 @@ public class Ellipse
         this.time = time;
         this.targetAngle = targetAngle;
         this.tolerance = tolerance;
-        quadrant = 1;
         slewCut = false;
-        drivePID = new PID(0.028, 0.1, 0.000005, 10, 10, 999999, 9999999);
-        gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
-        slewRate = new SlewRate(1.2);
-        firstIteration = true;
+        init();
     }
 
     public Ellipse(double a, double b, int direction, int target, double targetAngle, int tolerance, double time, boolean slew)
@@ -54,14 +50,16 @@ public class Ellipse
         this.time = time;
         this.targetAngle = targetAngle;
         this.tolerance = tolerance;
-        quadrant = 1;
         slewCut = !slew;
+        init();
+    }
+    public void init() {
+        quadrant = 1;
         drivePID = new PID(0.028, 0.1, 0.000005, 10, 10, 999999, 9999999);
-        gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
+        gyroDrivePID = new PID(0.03, 0, 0.000002, 999999, 99999, 999999, 9999999);
         slewRate = new SlewRate(1.2);
         firstIteration = true;
     }
-
     public boolean execute()
     {
 
@@ -73,12 +71,13 @@ public class Ellipse
         }
 
         encoder = (Robot.drive.getRightEncoder() + Robot.drive.getLeftEncoder()) / 2.0;
-        drivePower = drivePID.pidCalculate(target, encoder);
+
+        drivePower = drivePID.pidCalculate(target, encoder)*0.9;
         if (!slewCut)
         {
             drivePower = slewRate.rateCalculate(drivePower);
         }
-        if (Math.abs(drivePower) >= 0.9)
+        if (Math.abs(drivePower)/0.9 >= 0.9)
         {
             slewCut = true;
         }
@@ -86,6 +85,7 @@ public class Ellipse
         double x = xEllipseCalculate(encoder);
         double angle = direction*angleEllipseCalculate(x);
         
+       // System.out.println("\nTarget Angle: "+ angle +"Angle: " + Robot.drive.getAngle());
         //System.out.println("X: "+ x);
         //System.out.println("Angle: "+ angle);
         
@@ -101,6 +101,7 @@ public class Ellipse
             repsAtTarget++;
             if (repsAtTarget >= 5)
             {
+                System.out.println("Distance broken");
                 return true;
             }
             else
@@ -110,6 +111,7 @@ public class Ellipse
         }
         else if (Timer.getFPGATimestamp() - startTime >= time)
         {
+            System.out.println("Time broken");
             return true;
         }
         else

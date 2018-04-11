@@ -42,12 +42,12 @@ public class ArcingOppositeSideSwitch extends Command
         System.out.println("Opposite Side Switch got called");
         this.left = (left) ? 1 : -1;
         platTarget = 35;
-        forward1 = new DriveTarget(144, 0, 3, 5);
-        arc1 = new Ellipse(50,50, this.left*-1, 112, 0, 3, 2, false);
+        forward1 = new DriveTarget(200, 0, 3, 5); // 144 - 72
+        arc1 = new Ellipse(50,50, this.left*-1, 200, 0, 3, 2, false);
         forward2 = new DriveTarget(280, this.left * 90, 3, 5, false);
-        arc2 = new Ellipse(50,50, this.left*-1, 112, this.left*90, 3, 2, false);
+        arc2 = new Ellipse(33,33, this.left*-1, 200, this.left*90, 3, 2, false);
         forward3 = new DriveTarget(100, this.left*180, 3, 2, false);
-        arc3 = new Ellipse(50, 50, this.left*-1, 112,  this.left*180, 3, 2, false);
+        arc3 = new Ellipse(33, 33, this.left*-1, 200,  this.left*180, 3, 2, false);
         forward4 = new DriveTarget(22, this.left*270, 3, 2, false);
         back1 = new DriveTarget(-22, this.left*270, 3, 4);
     }
@@ -61,7 +61,7 @@ public class ArcingOppositeSideSwitch extends Command
                 platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
                 Robot.lift.movePlat(platPower);
                 encoder = (Robot.drive.getRightEncoder() + Robot.drive.getLeftEncoder()) / 2.0;
-                if (forward1.execute() || encoder > 50) {
+                if (forward1.execute() || encoder > 104) {
                     reset();
                     state = autonState.arc1;
  
@@ -82,7 +82,7 @@ public class ArcingOppositeSideSwitch extends Command
                 platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
                 Robot.lift.movePlat(platPower);
                 encoder = (Robot.drive.getRightEncoder() + Robot.drive.getLeftEncoder()) / 2.0;
-                if (forward2.execute() || encoder > 120) {
+                if (forward2.execute() || encoder > 132) {
                     reset();
                     state = autonState.arc2;
 
@@ -93,16 +93,16 @@ public class ArcingOppositeSideSwitch extends Command
                 platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
                 Robot.lift.movePlat(platPower);
                 encoder = (Robot.drive.getRightEncoder() + Robot.drive.getLeftEncoder()) / 2.0;
-                if (arc2.execute() || encoder > 78) {
+                if (arc2.execute() || encoder > 102) {
                     reset();
-                    state = autonState.forward3;
+                    state = autonState.forward4;
                 }
                 break;
             case forward3:
                 platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
                 Robot.lift.movePlat(platPower);
                 encoder = (Robot.drive.getRightEncoder() + Robot.drive.getLeftEncoder()) / 2.0;
-                if (forward3.execute() || encoder > 20) {
+                if (forward3.execute() || encoder > 12) {
                     reset();
                     state = autonState.arc3;
                 }
@@ -111,7 +111,7 @@ public class ArcingOppositeSideSwitch extends Command
                 platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
                 Robot.lift.movePlat(platPower);
                 encoder = (Robot.drive.getRightEncoder() + Robot.drive.getLeftEncoder()) / 2.0;
-                if (arc3.execute() || encoder > 78) {
+                if (arc3.execute() || encoder > 51) {
                     reset();
                     state = autonState.forward4;
                 }

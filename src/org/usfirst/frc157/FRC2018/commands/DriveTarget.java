@@ -32,7 +32,7 @@ public class DriveTarget
         this.tolerance = tolerance;
         slewCut = false;
         drivePID = new PID(0.028, 0.1, 0.000005, 10, 10, 999999, 9999999);
-        gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
+        gyroDrivePID = new PID(0.03, 0, 0.000002, 999999, 99999, 999999, 9999999);
         slewRate = new SlewRate(0.8);
         firstIteration = true;
     }
@@ -45,9 +45,9 @@ public class DriveTarget
         this.slewCut = slew;
         this.tolerance = tolerance;
         drivePID = new PID(0.028, 0.1, 0.000005, 10, 10, 999999, 9999999);
-        gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
+        gyroDrivePID = new PID(0.03, 0, 0.000002, 999999, 99999, 999999, 9999999);
         slewRate = new SlewRate(0.5);
-        slewCut = false;
+        slewCut = !slew;
         firstIteration = true;
     }
 

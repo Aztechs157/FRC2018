@@ -148,8 +148,9 @@ public class AuotoGroup extends CommandGroup
 //                        addSequential(new CrossLineWithSensors());
 //                    }
 //                 }
-                //addSequential(new DriveForDistance());
-                addSequential(new OppositeSideScale(false));
+                addSequential(new ArcingOppositeSideSwitch(false));
+               // addSequential(new DriveForDistance());
+               // addSequential(new Arc90Degrees(false));
                 break;
             default:
                 addSequential(new AutonMode0());
