@@ -4,6 +4,7 @@ package org.usfirst.frc157.FRC2018.commands;
 import org.usfirst.frc157.FRC2018.PID;
 import org.usfirst.frc157.FRC2018.Robot;
 import org.usfirst.frc157.FRC2018.commands.SameSideScale.autonState;
+import org.usfirst.frc157.FRC2018.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -47,14 +48,20 @@ public class OppositeSideScale extends Command
         System.out.println("Opposite Side Scale got called");
         this.left = (left) ? 1 : -1;
         platTarget = 30;
-        forward1 = new DriveTarget(168, 0, 3, 5);
+        forward1 = new DriveTarget(170, 0, 3, 5);
         turn1 = new GyroTurn(this.left * 90, 2, 3, 0.4);
-        forward2 = new DriveTarget(184, this.left * 90, 3, 5);
+        forward2 = new DriveTarget(167, this.left * 90, 3, 5);
         turn2 = new GyroTurn(0, 2, 3, 0.4);
         forward3 = new DriveTarget(68, 0, 3, 2);
         turn3 = new GyroTurn(this.left * -90, 2, 3, 0.4);
         back1 = new DriveTarget(-20, 0, 3, 3);
         waitReps = 0;
+    }
+    
+    @Override
+    protected void initialize()
+    {
+        reset();
     }
 
     @Override
@@ -63,7 +70,7 @@ public class OppositeSideScale extends Command
         switch (state)
         {
             case forward1:
-                moveLift();
+                //moveLift();
                 if (forward1.execute())
                 {
                     reset();
@@ -71,7 +78,7 @@ public class OppositeSideScale extends Command
                 }
                 break;
             case turn1:
-                moveLift();
+                //moveLift();
                 if (turn1.execute())
                 {
                     reset();
@@ -79,16 +86,17 @@ public class OppositeSideScale extends Command
                 }
                 break;
             case forward2:
-                moveLift();
+                //moveLift();
                 if (forward2.execute())
                 {
+                    System.out.println("Forward 2");
                     reset();
                     elevatorTarget = 35;
                     state = autonState.turn2;
                 }
                 break;
             case turn2:
-                moveLift();
+                //moveLift();
                 if (turn2.execute())
                 {
                     reset();
@@ -99,8 +107,9 @@ public class OppositeSideScale extends Command
                 moveLift();
                 if (forward3.execute())
                 {
+                    System.out.println("rubber ducky had a  good time");
                     reset();
-                    Robot.grabber.move(-1);
+                    //Robot.grabber.move(-1);
                     state = autonState.turn3;
                 }
                 break;
@@ -123,9 +132,9 @@ public class OppositeSideScale extends Command
                 break;
             case wait1:
                 moveLift();
+                Robot.grabber.move(-1);
                 if (waitReps>30) {
                     reset();
-                    Robot.grabber.move(-1);
 //                    elevatorTarget = 0;
 //                    platTarget = 0;
                    // state = autonState.back1;
@@ -151,6 +160,15 @@ public class OppositeSideScale extends Command
     {
         // TODO Auto-generated method stub
         return autonFinished;
+    }
+    
+    @Override
+    protected void end()
+    {
+        // TODO Auto-generated method stub
+
+        Lift.platLast = Robot.lift.getPlatEncoder();
+        Lift.stageLast = Robot.lift.getStageEncoder();
     }
 
     public void reset()

@@ -47,8 +47,8 @@ public class OppositeSideSwitch extends Command
         turn2 = new GyroTurn(this.left*180, 2, 3, 0.4);
         forward3 = new DriveTarget(52, this.left*180, 3, 2);
         turn3 = new GyroTurn(this.left*270, 2, 3, 0.4);
-        forward4 = new DriveTarget(22, this.left*270, 3, 2);
-        back1 = new DriveTarget(-22, this.left*270, 3, 4);
+        forward4 = new DriveTarget(28, this.left*270, 3, 2);
+        back1 = new DriveTarget(-28, this.left*270, 3, 4);
     }
 
     @Override
@@ -57,8 +57,6 @@ public class OppositeSideSwitch extends Command
         switch (state)
         {
             case forward1:
-                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
-                Robot.lift.movePlat(platPower);
                 if (forward1.execute()) {
                     reset();
                     state = autonState.turn1;
@@ -66,8 +64,6 @@ public class OppositeSideSwitch extends Command
                 }
                 break;
             case turn1:
-                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
-                Robot.lift.movePlat(platPower);
                 if (turn1.execute()) {
                     reset();
                     state = autonState.forward2;
@@ -76,8 +72,6 @@ public class OppositeSideSwitch extends Command
                 }
                 break;
             case forward2:
-                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
-                Robot.lift.movePlat(platPower);
                 if (forward2.execute()) {
                     reset();
                     state = autonState.turn2;
@@ -86,16 +80,12 @@ public class OppositeSideSwitch extends Command
                 }
                 break;
             case turn2:
-                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
-                Robot.lift.movePlat(platPower);
                 if (turn2.execute()) {
                     reset();
                     state = autonState.forward3;
                 }
                 break;
             case forward3:
-                platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
-                Robot.lift.movePlat(platPower);
                 if (forward3.execute()) {
                     reset();
                     state = autonState.turn3;
@@ -114,16 +104,16 @@ public class OppositeSideSwitch extends Command
                 Robot.lift.movePlat(platPower);
                 if (forward4.execute()) {
                     reset();
-                    Robot.grabber.move(-1);
+                    //Robot.grabber.move(-1);
                     state = autonState.wait1;
                 }
                 break;
             case wait1:
                 platPower = platPID.pidCalculate(platTarget, Robot.lift.getPlatEncoder());
                 Robot.lift.movePlat(platPower);
+                Robot.grabber.move(-1);
                 if (waitReps>50) {
                     reset();
-                    Robot.grabber.move(-1);
                     state = autonState.back1;
                     waitReps = 0;
                 }

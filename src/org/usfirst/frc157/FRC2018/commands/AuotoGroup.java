@@ -35,6 +35,7 @@ public class AuotoGroup extends CommandGroup
     public static int getPotVal()
     {
         int potVal = (int) (Math.floor(autoSelect.get()));
+        System.out.println("Running autonomous mode"+potVal);
         return potVal;
     }
 
@@ -130,7 +131,7 @@ public class AuotoGroup extends CommandGroup
                   break;
             case mode9: // lining up left side, going for scale for 2 cubes
                 if (gameData.charAt(1) == 'L')
-                    addSequential(new SameSideScale2Cube(true));
+                    addSequential(new SameSideScale(true));
                 else
                     addSequential(new OppositeSideScale(true));
                 break;
@@ -144,6 +145,11 @@ public class AuotoGroup extends CommandGroup
                 }
                 break;
             case mode11: // auton for testing purposes only
+                if (gameData.charAt(1) == 'R')
+                    addSequential(new SameSideScale(false));
+                else
+                    addSequential(new OppositeSideScale(false));
+                
 //                if (gameData.charAt(1) == 'R')
 //                    addSequential(new SameSideScale(false));
 //                else {
