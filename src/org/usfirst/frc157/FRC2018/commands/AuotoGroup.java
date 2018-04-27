@@ -119,10 +119,14 @@ public class AuotoGroup extends CommandGroup
                 addSequential(new CrossLineWithSensors());
                 break;
             case mode8:
-            	  if (gameData.charAt(0) == 'L')
-                      addSequential(new ArcingCenterSwitch(true));
-                  else
-                     addSequential(new ArcingCenterSwitch(false));
+                if (gameData.charAt(0) == 'R')
+                {
+                    addSequential(new OppositeSideSwitch(true));
+                }
+                else
+                {
+                    addSequential(new SameSideSwitch(true));
+                }
                   break;
             case mode9: // lining up left side, going for scale for 2 cubes
                 if (gameData.charAt(1) == 'L')
@@ -130,11 +134,14 @@ public class AuotoGroup extends CommandGroup
                 else
                     addSequential(new OppositeSideScale(true));
                 break;
-            case mode10: // lining up right side, going for scale for 2 cubes
-                if (gameData.charAt(1) == 'R')
-                    addSequential(new SameSideScale2Cube(false));
-                else
-                    addSequential(new OppositeSideScale(false));
+            case mode10: //right
+                if (gameData.charAt(0) == 'L')
+                {
+                    addSequential(new OppositeSideSwitch(false));
+                }
+                else {
+                    addSequential(new SameSideSwitch(false));
+                }
                 break;
             case mode11: // auton for testing purposes only
 //                if (gameData.charAt(1) == 'R')
@@ -148,7 +155,6 @@ public class AuotoGroup extends CommandGroup
 //                        addSequential(new CrossLineWithSensors());
 //                    }
 //                 }
-                addSequential(new ArcingOppositeSideSwitch(false));
                // addSequential(new DriveForDistance());
                // addSequential(new Arc90Degrees(false));
                 break;
