@@ -50,10 +50,10 @@ public class OppositeSideScale extends Command
         platTarget = 30;
         forward1 = new DriveTarget(170, 0, 3, 5);
         turn1 = new GyroTurn(this.left * 90, 2, 3, 0.4);
-        forward2 = new DriveTarget(167, this.left * 90, 3, 5);
-        turn2 = new GyroTurn(0, 2, 3, 0.4);
-        forward3 = new DriveTarget(68, 0, 3, 2);
-        turn3 = new GyroTurn(this.left * -90, 2, 3, 0.4);
+        forward2 = new DriveTarget(187, this.left * 90, 3, 5); //drive 20" farther
+        turn2 = new GyroTurn(this.left*-30, 2, 3, 0.4); //turn to 30 instead of 0
+        forward3 = new DriveTarget(68, this.left*-30, 3, 2, true, true);
+        turn3 = new GyroTurn(this.left * -90, 2, 3, 0.4); //no longer called
         back1 = new DriveTarget(-20, 0, 3, 3);
         waitReps = 0;
     }
@@ -96,7 +96,9 @@ public class OppositeSideScale extends Command
                 }
                 break;
             case turn2:
-                //moveLift();
+                moveLift();
+                
+                
                 if (turn2.execute())
                 {
                     reset();
@@ -110,7 +112,7 @@ public class OppositeSideScale extends Command
                     System.out.println("rubber ducky had a  good time");
                     reset();
                     //Robot.grabber.move(-1);
-                    state = autonState.turn3;
+                    state = autonState.wait1;
                 }
                 break;
             case turn3:
