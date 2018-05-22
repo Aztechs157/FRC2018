@@ -43,8 +43,8 @@ public class SameSideScale extends Command
         this.left = (left) ? 1 : -1;
         platTarget = 35;
         elevatorTarget = 35;
-        forward1 = new DriveTarget(243, 0, 3, 5);
-        turn1 = new GyroTurn(this.left * 80, 3, 3, 0.4);
+        forward1 = new DriveTarget(228, 0, 3, 5);
+        turn1 = new GyroTurn(this.left * 90, 3, 3, 0.4);
         forward2 = new DriveTarget(30, this.left * 45, 3, 3);
         back1 = new DriveTarget(-50, this.left*45, 3, 8);
         waitReps = 0;
@@ -132,6 +132,7 @@ public class SameSideScale extends Command
     }
     public void reset()
     {
+        System.out.println("Encoders: "+Robot.drive.getLeftEncoder()+", "+Robot.drive.getRightEncoder());
         Robot.drive.AutoDrive(0, 0);
         Robot.drive.resetLeftEncoder();
         Robot.drive.resetRightEncoder();
