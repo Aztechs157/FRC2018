@@ -45,7 +45,7 @@ public class Lift extends Subsystem
     private final WPI_TalonSRX platformMotor = RobotMap.platformTalon;
     private final Encoder platformQuad = RobotMap.platformQuad;
     private final Encoder extensionQuad = RobotMap.stageQuad;
-    private final double scale = 1;
+    private final double scale = 0.5;
     public static final double STAGETOP = 35;
     public static final double PLATTOP = 40.5;
     public PID platTopPID = new PID(1, 0, 0.00000, 999999, 99999, 999999, 9999999);
