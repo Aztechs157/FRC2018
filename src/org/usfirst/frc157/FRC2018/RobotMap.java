@@ -43,6 +43,7 @@ public class RobotMap {
     public static WPI_TalonSRX driveRight2;
     public static WPI_TalonSRX driveLeft1;
     public static WPI_TalonSRX driveLeft2;
+    public static WPI_TalonSRX climberMotor;
     public static Encoder driveRightQuad;
     public static Encoder drivedriveLeftQuad;
     public static AnalogGyro driveGyro;
@@ -74,9 +75,9 @@ public class RobotMap {
         stageQuad = new Encoder(21, 22, false, EncodingType.k4X);
         LiveWindow.addSensor("Extension", "carriageQuad", stageQuad);
 
-        stageQuad.setDistancePerPulse(0.009); 
+        stageQuad.setDistancePerPulse(0.0045); 
 
-        stageQuad.setDistancePerPulse(0.009);
+        stageQuad.setDistancePerPulse(0.0045);
 
         stageQuad.setPIDSourceType(PIDSourceType.kRate);
         stageTalon = new WPI_TalonSRX(7);
@@ -117,6 +118,8 @@ public class RobotMap {
         intakeLeftTalon = new WPI_TalonSRX(4);
         autoSelect = new AnalogPotentiometer(2, 11.75, 0.0);
         speedScale = new AnalogPotentiometer(3, 1);
+
+        climberMotor = new WPI_TalonSRX(6);
 
         
 

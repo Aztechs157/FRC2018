@@ -23,6 +23,7 @@ public class DriveTarget
     private int repsAtTarget;
     private int tolerance;
     private boolean firstIteration;
+    private boolean megaSlew = false;
 
     public DriveTarget(int target, double targetAngle, int tolerance, double time)
     {
@@ -50,12 +51,26 @@ public class DriveTarget
         slewCut = !slew;
         firstIteration = true;
     }
+    public DriveTarget(int target, double targetAngle, int tolerance, double time, boolean slew, boolean megaSlew)
+    {
+        this.target = target;
+        this.time = time;
+        this.targetAngle = targetAngle;
+        this.slewCut = slew;
+        this.tolerance = tolerance;
+        drivePID = new PID(0.028, 0.1, 0.000005, 10, 10, 999999, 9999999);
+        gyroDrivePID = new PID(0.03, 0, 0.000002, 999999, 99999, 999999, 9999999);
+        slewRate = new SlewRate(0.5);
+        slewCut = !slew;
+        firstIteration = true;
+        this.megaSlew = megaSlew;
+    }
 
     public boolean execute() {
 
         if (firstIteration) {
             startTime = Timer.getFPGATimestamp();
-            slewRate = new SlewRate(1.6);
+            slewRate = new SlewRate((!megaSlew)? 1.6: 0.2);
             firstIteration = false;
             //System.out.println("New Motion");
         }

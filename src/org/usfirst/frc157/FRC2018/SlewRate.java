@@ -37,8 +37,24 @@ public class SlewRate {
 		double returnVal = newRate;
 		return returnVal;
 	}
-	public void reinit() {
+	public double getLastTime()
+    {
+        return lastTime;
+    }
+    public void setLastTime(double lastTime)
+    {
+        this.lastTime = lastTime;
+    }
+    public void reinit() {
 		lastTime = Timer.getFPGATimestamp();
 		lastRate = 0;
 	}
+    public double getLastRate()
+    {
+        return lastRate;
+    }
+    public void setLastRate(double lastRate)
+    {
+        this.lastRate = lastRate;
+    }
 }

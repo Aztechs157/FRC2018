@@ -135,8 +135,8 @@ public class OI {
                 {l2, r2, l1, r1},
                 {sE, sT, k11, k12}
         };*/
-        l1.whileHeld(new opMoveDown());
-        r1.whileHeld(new opMoveUp());
+        //l1.whileHeld(new opMoveDown());
+        //r1.whileHeld(new opMoveUp());
         opA.whileHeld(new MoveLiftToPos(0));
         opX.whileHeld(new MoveLiftToPos(4));
         opY.whileHeld(new MoveLiftToPos(6));
@@ -189,6 +189,10 @@ public class OI {
     }
     public Joystick getOperatorGamePad() {
         return operatorGamePad;
+    }
+    public double getPOV()
+    {
+        return operatorGamePad.getPOV();
     }
 
 
