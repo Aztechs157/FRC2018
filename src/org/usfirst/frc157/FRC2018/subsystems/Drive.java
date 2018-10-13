@@ -125,8 +125,8 @@ public class Drive extends Subsystem {
            // mechDrive = false;
             if (mechDrive)
             {
-                double RxDrive = -Robot.oi.getgamePad().getRawAxis(OI.LYStick);
-                double lYDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick);
+                double RxDrive = -Robot.oi.getgamePad().getRawAxis(OI.LYStick)*potentiometer;
+                double lYDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick)*potentiometer;
                 driveRightSet(lYDrive-RxDrive);
                 driveLeftSet(lYDrive+RxDrive);
                // driveSet(lYDrive+RxDrive,lYDrive-RxDrive );
@@ -135,8 +135,8 @@ public class Drive extends Subsystem {
             else
             {
              //   double RxDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick) * potentiometer;
-                double RxDrive = -Robot.oi.getgamePad().getRawAxis(OI.RYStick);
-                double lYDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick);
+                double RxDrive = -Robot.oi.getgamePad().getRawAxis(OI.RYStick)*potentiometer;
+                double lYDrive = Robot.oi.getgamePad().getRawAxis(OI.RxStick)*potentiometer;
                 driveRightSet(lYDrive-RxDrive);
                 driveLeftSet(lYDrive+RxDrive);
             }
