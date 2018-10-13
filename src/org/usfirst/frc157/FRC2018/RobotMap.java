@@ -79,7 +79,7 @@ public class RobotMap {
         stageQuad.setDistancePerPulse(0.0045);
 
         stageQuad.setPIDSourceType(PIDSourceType.kRate);
-        stageTalon = new WPI_TalonSRX(6);
+        stageTalon = new WPI_TalonSRX(7);
         
         
         stageTopLimit = new DigitalInput(23);
