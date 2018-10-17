@@ -41,12 +41,12 @@ public class Lift extends Subsystem
     private final WPI_TalonSRX extensionMotor = RobotMap.stageTalon;
     private final DigitalInput platformTopLimit = RobotMap.platformTopLimit;
     private final DigitalInput platformBottomLimit = RobotMap.platformBottomLimit;
-
+    private final double stopDist = 3;
     private final WPI_TalonSRX platformMotor = RobotMap.platformTalon;
     private final Encoder platformQuad = RobotMap.platformQuad;
     private final Encoder extensionQuad = RobotMap.stageQuad;
     private final double scale = 1;
-    public static final double STAGETOP = 35;
+    public static final double STAGETOP = 37.5;
     public static final double PLATTOP = 40.5;
     public PID platTopPID = new PID(1, 0, 0.00000, 999999, 99999, 999999, 9999999);
     public PID platUpPID = new PID(0.6, 0, 0.0000000, 999999, 99999, 999999, 9999999);
@@ -259,8 +259,24 @@ public class Lift extends Subsystem
     }
     public void stop()
     {
-        stageLast = (Double.isNaN(stageLast))?getStageEncoder():stageLast;
-        platLast = (Double.isNaN(platLast))?getPlatEncoder():platLast;
+        double val = getStageEncoder();
+        if (extensionQuad.getRate() > 0)
+        {
+            stageLast = (Double.isNaN(stageLast))?((val+stopDist<= STAGETOP)?val+stopDist:STAGETOP):stageLast;
+        }
+        else
+        {
+            stageLast = (Double.isNaN(stageLast))?((val-stopDist>= 0)?val-stopDist:0):stageLast;
+        }
+        val = getPlatEncoder();
+        if (platformQuad.getRate() > 0)
+        {
+            platLast = (Double.isNaN(platLast))?((val+stopDist<= PLATTOP)?val+stopDist:PLATTOP):platLast;
+        }
+        else
+        {
+            platLast = (Double.isNaN(platLast))?((val-stopDist>= 0)?val-stopDist:0):platLast;
+        }
         moveStageNoReset(-scale*stageUpPID.pidCalculate(stageLast, getStageEncoder()));
         movePlatNoReset(scale*platUpPID.pidCalculate(platLast, getPlatEncoder()));
     }

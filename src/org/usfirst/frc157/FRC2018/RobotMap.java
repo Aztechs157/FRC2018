@@ -74,9 +74,9 @@ public class RobotMap {
         stageQuad = new Encoder(21, 22, false, EncodingType.k4X);
         LiveWindow.addSensor("Extension", "carriageQuad", stageQuad);
 
-        stageQuad.setDistancePerPulse(0.009); 
+        stageQuad.setDistancePerPulse(0.004712841); 
 
-        stageQuad.setDistancePerPulse(0.009);
+        stageQuad.setDistancePerPulse(0.004712841);
 
         stageQuad.setPIDSourceType(PIDSourceType.kRate);
         stageTalon = new WPI_TalonSRX(7);
