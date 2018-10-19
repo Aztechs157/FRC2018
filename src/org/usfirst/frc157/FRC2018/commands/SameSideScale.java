@@ -41,9 +41,9 @@ public class SameSideScale extends Command
         elevatorPID = new PID(1, 0, 0, 999999, 999999, 9999999, 99999);
         System.out.println("Same side scale got called");
         this.left = (left) ? 1 : -1;
-        platTarget = 35;
-        elevatorTarget = 35;
-        forward1 = new DriveTarget(228, 0, 3, 5);
+        platTarget = 40.5;
+        elevatorTarget = 37.5;
+        forward1 = new DriveTarget(198, 0, 3, 5);
         turn1 = new GyroTurn(this.left * 90, 3, 3, 0.4);
         forward2 = new DriveTarget(30, this.left * 45, 3, 3);
         back1 = new DriveTarget(-50, this.left*45, 3, 8);
