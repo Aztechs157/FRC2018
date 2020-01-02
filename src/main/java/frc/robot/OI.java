@@ -139,7 +139,7 @@ public class OI {
         //r1.whileHeld(new opMoveUp());
         opA.whileHeld(new MoveLiftToPos(0));
         opX.whileHeld(new MoveLiftToPos(1));
-        opY.whileHeld(new MoveLiftToPos(3));
+        opY.whileHeld(new MoveLiftToPos(6));
         opStart.whenPressed(new ResetEncoder());  
         opBack.whileHeld(new EncoderPositionRecoveryProtocolEPRP());
         /*opBoxButtons[0][0].whileHeld(new grabberMove(true));

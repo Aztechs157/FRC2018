@@ -12,6 +12,7 @@ package frc.robot.subsystems;
 
 import frc.robot.PID;
 import frc.robot.PIDParameters;
+import frc.robot.PID_Wescott;
 
 //import java.text.DecimalFormat;
 
@@ -51,16 +52,16 @@ public class Lift extends Subsystem
     private final double scale = 1;
     public static final double STAGETOP = 35;
     public static final double PLATTOP = 38.5;
-    public PID stagePID = new PID(new PIDParameters[] { 
+    public PID_Wescott stagePID = new PID_Wescott (new PIDParameters[] { 
         new PIDParameters(0.5, 0, 0, 0, 0, 0, 0),
         new PIDParameters(0.5, 0, 0, 0, 0, 0, 0),
     });
     public final static int stagePIDUp = 0;
     public final static int stagePIDDown = 1;
-    public PID platPID = new PID(new PIDParameters[] {
+    public PID_Wescott platPID = new PID_Wescott (new PIDParameters[] {
         new PIDParameters(1, 0, 0, 0, 0, 0, 0),
-        new PIDParameters(0.9, 0, 0.03, 0.5, 0, 40, 0),
-        new PIDParameters(0.9, 0, 0.045, 0, 0, 40, 0),
+        new PIDParameters(0.9, 0.04, 0.03, 0.5, 0.0, 40.0, 0, -0.0, 5.0), // 0.9, 0, 0.03, 0.5, 0, 40,0),
+        new PIDParameters(0.9, 0.04, 0.045, 0, 0, 40, 0, -0.0, 5.0), //0.9, 0, 0.045, 0, 0, 40, 0),
         new PIDParameters(0.5, 0, 0, 0, 0, 0, 0),
     });
     public final static int platPIDTop = 0;
@@ -163,7 +164,7 @@ public class Lift extends Subsystem
         {
             if (!StageTopLimit())
             {
-                //extensionMotor.set(speed);
+                extensionMotor.set(speed);
             }
             else
             {
@@ -174,7 +175,7 @@ public class Lift extends Subsystem
         {
             if (!extensionBottomLimit.get())
             {
-                //extensionMotor.set(speed);
+                extensionMotor.set(speed);
             }
             else
             {
@@ -185,7 +186,7 @@ public class Lift extends Subsystem
     
     public void setStage(double speed)
     {
-        //extensionMotor.set(speed);
+        extensionMotor.set(speed);
     }
     
     public void setPlat(double speed)
@@ -200,7 +201,7 @@ public class Lift extends Subsystem
         {
             if (!StageTopLimit())
             {
-                //extensionMotor.set(speed);
+                extensionMotor.set(speed);
             }
             else
             {
@@ -212,7 +213,7 @@ public class Lift extends Subsystem
             //System.out.println(!extensionBottomLimit.get());
             if (!extensionBottomLimit.get())
             {
-                //extensionMotor.set(speed);
+                extensionMotor.set(speed);
             }
             else
             {
@@ -228,7 +229,7 @@ public class Lift extends Subsystem
     public void stopStage()
     {
         stageLast = (Double.isNaN(stageLast))?getStageEncoder():stageLast;
-        //moveStageNoReset(-scale*stagePID.pidCalculate(stageLast, getStageEncoder(), platPIDUp)); //TODO investigate platPIDUp here
+        moveStageNoReset(-scale*stagePID.pidCalculate(stageLast, getStageEncoder(), platPIDUp)); //TODO investigate platPIDUp here
     }
     public void move(direction dir, double speed)
     {
@@ -239,7 +240,7 @@ public class Lift extends Subsystem
                {
 
                    platLast = (Double.isNaN(platLast))?getPlatEncoder():platLast;
-                   //moveStage(-scale*stagePID.pidCalculate(STAGETOP, getStageEncoder(), platPIDUp));
+                   moveStage(-scale*stagePID.pidCalculate(STAGETOP, getStageEncoder(), platPIDUp));
                    stageLast = Double.NaN;
                    movePlat(scale*platPID.pidCalculate(PLATTOP, getPlatEncoder(), platPIDTop));
                    //System.out.println(-scale*stagePID.pidCalculate(STAGETOP, getStageEncoder()));
@@ -249,7 +250,7 @@ public class Lift extends Subsystem
                    stageLast = (Double.isNaN(stageLast))?getStageEncoder():stageLast;
                    movePlat(scale*platPID.pidCalculate(PLATTOP, getPlatEncoder(), platPIDUp));
                    platLast = Double.NaN;
-                   //moveStage(-scale*platPID.pidCalculate(stageLast, getStageEncoder()));
+                   moveStage(-scale*platPID.pidCalculate(stageLast, getStageEncoder()));
                    //System.out.println(stageLast);
                }
                break;
@@ -257,7 +258,8 @@ public class Lift extends Subsystem
                if (getStageEncoder() > 0.25)
                {
                    platLast = (Double.isNaN(platLast))?getPlatEncoder():platLast;
-                   //moveStage(-scale*stagePID.pidCalculate(0, getStageEncoder(), stagePIDDown));                   stageLast = Double.NaN;
+                   moveStage(-scale*stagePID.pidCalculate(0, getStageEncoder(), stagePIDDown));
+                   stageLast = Double.NaN;
                    movePlat(scale*platPID.pidCalculate(platLast, getPlatEncoder(), platPIDUp));
                }
                else
@@ -265,7 +267,7 @@ public class Lift extends Subsystem
                    stageLast = (Double.isNaN(stageLast))?getStageEncoder():stageLast;
                    movePlat(scale*platPID.pidCalculate(0, getPlatEncoder(), platPIDDown));
                    platLast = Double.NaN;
-                   //moveStage(-scale*stagePID.pidCalculate(0, getStageEncoder(), platPIDUp));
+                   moveStage(-scale*stagePID.pidCalculate(0, getStageEncoder(), platPIDUp));
                }
                break;
         }
@@ -274,7 +276,7 @@ public class Lift extends Subsystem
     {
         stageLast = (Double.isNaN(stageLast))?getStageEncoder():stageLast;
         platLast = (Double.isNaN(platLast))?getPlatEncoder():platLast;
-        //moveStageNoReset(-scale*stagePID.pidCalculate(stageLast, getStageEncoder(), platPIDUp));
+        moveStageNoReset(-scale*stagePID.pidCalculate(stageLast, getStageEncoder(), platPIDUp));
         movePlatNoReset(scale*platPID.pidCalculate(platLast, getPlatEncoder(), platPIDUp));
     }
     public double getEncoder(quad encoder)

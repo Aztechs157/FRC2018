@@ -1,10 +1,14 @@
 package frc.robot;
 
+
+
+
+
+
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.PIDParameters;
 
 public class PID {
-	
 	private PIDParameters[] optionSets;
 	private double lastTime;
 	private double lastPosition;  
@@ -26,7 +30,8 @@ public class PID {
 	 * Overload for backwords compatability
 	 * Check PIDParameters for usage of these params
 	 */
-	public PID(double kP, double kI, double kD, double rangeIStart, double rangeIEnd, double rangeDStart, double rangeDEnd) {
+	public PID(double kP, double kI, double kD, double rangeIStart, double rangeIEnd, 
+			   double rangeDStart, double rangeDEnd) {
 		this.optionSets = new PIDParameters[] { 
 			new PIDParameters(kP, kI, kD, rangeIStart, rangeIEnd, rangeDStart, rangeDEnd),
 		};
@@ -98,5 +103,5 @@ public class PID {
 		}
 		count++;
 		return pidCalculate(desiredPosition, currentPosition, optionIndex);
-	}
+	}//DISCUSS WITH STUDENTS, PROPER IMPLIMENTATION
 }

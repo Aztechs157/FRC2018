@@ -11,7 +11,8 @@ public class PIDParameters {
     public double rangeIEnd;
     public double rangeDStart;
     public double rangeDEnd;
-
+    public double minI;
+    public double maxI;
     /**
      * 
      * @param kP
@@ -32,11 +33,15 @@ public class PIDParameters {
         this.rangeDEnd = rangeDEnd;
     }
 
-	public PIDParameters(double kP2, double kI2, double kD2, double rangeIStart2, double rangeIEnd2) {
+	public PIDParameters(double kP, double kI, double kD, double rangeIStart, double rangeIEnd, double rangeDStart, double rangeDEnd, double minI, double maxI) {
         this.kP = kP;
         this.kI = kI;
         this.kD = kD;
         this.rangeIStart = rangeIStart;
         this.rangeIEnd = rangeIEnd;
+        this.rangeDStart = rangeDStart;
+        this.rangeDEnd = rangeDEnd;
+        this.minI = minI;
+        this.maxI = maxI;
 	}
 }
